@@ -1,6 +1,9 @@
-import { Grid, Footer as USWDSFooter } from "@trussworks/react-uswds";
+import {
+  Grid,
+  Footer as USWDSFooter,
+  Link as ExternalLink,
+} from "@trussworks/react-uswds";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import { ReactComponent as ColoradoBhaLogoWhite } from "../images/logos/colorado_bha_white.svg";
 
 const T_PREFIX = "components.footer.";
@@ -10,7 +13,7 @@ const betaLabel = (
   </span>
 );
 function Footer() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <USWDSFooter
       primary={<></>}
@@ -29,9 +32,13 @@ function Footer() {
             </Grid>
             <Grid row>
               {t(`${T_PREFIX}feedbackPrompt`)}
-              <Link to={t("common.feedbackUrl")}>
+              <ExternalLink
+                variant="external"
+                target="_blank "
+                href={t("common.feedbackUrl")}
+              >
                 {t(`${T_PREFIX}feedbackCta`)}
-              </Link>
+              </ExternalLink>
             </Grid>
           </Grid>
           <Grid col="auto" tablet={{ col: 6 }}>
