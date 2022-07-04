@@ -8,7 +8,7 @@ import { ReactComponent as ColoradoBhaLogoWhite } from "../images/logos/colorado
 
 const T_PREFIX = "components.footer.";
 const betaLabel = (
-  <span className="text-normal text-base-darker font-body-sm bg-accent-warm-lighter radius-pill padding-x-1 margin-right-1">
+  <span className="font-body-sm bg-primary-light radius-pill padding-x-1 margin-right-1">
     BETA
   </span>
 );
@@ -16,6 +16,7 @@ function Footer() {
   const { t } = useTranslation();
   return (
     <USWDSFooter
+      className="usa-dark-background"
       primary={<></>}
       secondary={
         <Grid
