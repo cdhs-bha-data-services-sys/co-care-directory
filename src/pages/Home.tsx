@@ -102,7 +102,7 @@ function Home() {
                 }
                 cta={
                   <Link
-                    href="https://coloradocrisisservices.org"
+                    href={t(`${T_PREFIX}_coloradoCrisisService.link`)}
                     target="_blank"
                     variant="external"
                   >

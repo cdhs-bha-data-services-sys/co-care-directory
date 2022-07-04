@@ -1,11 +1,11 @@
 {
   "home": {
     "heading": "Find behavioral health care that’s meaningful for you.",
-    "zipPrompt": "Enter your zip code to find care near your area",
     "_coloradoCrisisService": {
       "heading": "If you’re experiencing crisis",
       "content": "No matter what you’re going through, help is available. Call Colorado Crisis Services at 844-493-TALK (8255) or text TALK to 38255.",
-      "cta": "Learn more at ColoradoCrisisServices.org"
+      "cta": "Learn more at ColoradoCrisisServices.org",
+      "link": "https://coloradocrisisservices.org"
     },
     "_iMatter": {
       "heading": "Free therapy for youth",
@@ -31,27 +31,27 @@
     "details": "Details",
     "populationsServed": "Populations served",
     "_populationsServed": {
-      "Homeless": "Homeless",
-      "LGBT": "LGBT",
+      "Homeless": "Person experiencing homelessness",
+      "LGBT": "LGBTQ+",
       "Men": "Men",
       "Military": "Military",
       "OlderAdults": "Older Adults",
       "PregnantWomen": "Pregnant Women",
       "Women": "Women",
-      "Youth": "Youth",
-      "Offender": "Offender",
+      "Youth": "Youth and young adults (under the age of 21)",
+      "Offender": "Justice-involved person",
       "Minors/Adolescents": "Minors/Adolescents",
-      "ClientsreferredfromCourt/JudicialSystem": "Clients referred from Court/Judicial System",
+      "ClientsreferredfromCourt/JudicialSystem": "Person referred from Court/Judicial System",
       "AmericanIndian": "American Indian",
-      "HIV": "HIV"
+      "HIV": "Person who has tested positive for HIV"
     },
     "accessibilityOptions": "Accessibility options",
     "_accessibilityOptions": {
-      "Deaf/HardofHearing": "Deaf/Hard of Hearing",
-      "VisuallyImpaired": "Visually Impaired",
-      "Wheelchair": "Wheelchair"
+      "Deaf/HardofHearing": "Support for a person with a hearing impairment or who is deaf",
+      "VisuallyImpaired": "Support for a person with a visual impairment or who is blind",
+      "Wheelchair": "Support for a person who uses a wheelchair"
     },
-    "specialities": "Specialities",
+    "services": "Services",
     "substanceUseServices": "Substance use services",
     "_substanceUseServices": {
       "ClinicallyManagedHighIntensityResidentialServices": "Clinically Managed High Intensity Residential Services",
@@ -68,8 +68,8 @@
       "MedicallyMonitoredIntensiveResidentialTreatment": "Medically Monitored Intensive Residental Treatment",
       "MedicationAssistedTherapy": "Medication Assisted Therapy",
       "OpioidTreatmentPrograms": "Opioid Treatment Programs",
-      "Outpatient": "Outpatient",
-      "YouthTreatment": "Youth Treatment"
+      "Outpatient": "Outpatient services",
+      "YouthTreatment": "Youth Treatment (under the age of 21)"
     },
     "mentalHealthServices": "Mental health services",
     "_mentalHealthServices": {

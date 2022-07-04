@@ -128,7 +128,7 @@ function ResultDetail() {
       </section>
       {(data.substanceUse.supported || data.mentalHealth.supported) && (
         <section>
-          <h2>{t(`${T_PREFIX}specialities`)}</h2>
+          <h2>{t(`${T_PREFIX}services`)}</h2>
           <Horizontal />
           {data.substanceUse.supported && (
             <>

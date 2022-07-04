@@ -50,6 +50,7 @@
     "friday": "Friday",
     "saturday": "Saturday",
     "sunday": "Sunday",
+    "closed": "Closed",
     "contactForInfo": "Please contact the clinic or organization for information",
     "fees": "Payment types accepted",
     "_fees": {

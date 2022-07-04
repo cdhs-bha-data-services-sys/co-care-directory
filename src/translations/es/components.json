@@ -1,3 +1,69 @@
 {
-  "milesAway": "A {{ miles }} millas de distancia"
+  "banner": {
+    "immediateHelp": "¿Necesitas ayuda inmediata con una crisis emocional, de salud mental o de uso de sustancias?",
+    "changeLanguage": "Cambiar idioma"
+  },
+  "footer": {
+    "feedbackPrompt": "¿Tienes alguna sugerencia para mejorar este sitio web?",
+    "feedbackCta": " Envía tu sugerencia usando este formulario de Google.",
+    "betaExplanation": "MiPropiaSenda es un sitio web en versión BETA (desarrollo activo) en el que estamos trabajando para mejorar su desempeño y agregar funcionalidades."
+  },
+  "search": {
+    "milesAway": "A {{ miles }} millas",
+    "toggleFiltersButton_zero": "Filtrar resultados",
+    "toggleFiltersButton_one": "Filtrar resultados ({{ count}} seleccionados",
+    "toggleFiltersButton_other": "Filtrar resultados ({{ count}} seleccionados",
+    "clearFiltersButton": "Borrar todos los filtros",
+    "viewResultsButton": "Ver resultados",
+    "filters": {
+      "distance": {
+        "distance": "Distancia",
+        "withinMiles": "Máximo {{n}} millas"
+      },
+      "typeOfHelp": {
+        "question": "Tipo de ayuda",
+        "answers": {
+          "substance_use": "Por uso de drogas o alcohol",
+          "court_mandated_treatment": "Porque una corte ordenó tratamiento",
+          "mental_health": "Salud mental (sentimientos constantes de tristeza, soledad, preocupación....)"
+        }
+      },
+      "feePreference": {
+        "question": "Formas de pago aceptadas",
+        "answers": {
+          "Medicaid": "Medicaid",
+          "PrivateInsurance": "Seguro privado",
+          "SlidingFeeScale": "Opciones de pago según ingresos"
+        }
+      }
+    }
+  },
+  "resultDetail": {
+    "telephoneNumber": "Número de teléfono",
+    "website": "El sitio web",
+    "address": "La dirección",
+    "hours": "Horario de servicios",
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miercoles",
+    "thursday": "Jueves",
+    "friday": "Viernes",
+    "saturday": "Sábado",
+    "sunday": "Domingo",
+    "closed": "Cerrada",
+    "fees": "Formas de pago aceptadas",
+    "_fees": {
+      "Medicade": "Medicaid",
+      "PrivateInsurance": "Seguro privado",
+      "SlidingFeeScale": "Opciones de pago según ingresos",
+      "SelfPay": "Pago directo/por cuenta propia"
+    }
+  },
+  "home": {
+    "zipPrompt": "Ingresa tu código postal para encontrar atención cercana a tu área.",
+    "searchButton": "Buscar",
+    "zipInput": "Código postal",
+    "guidedSearchPrompt": "Usa nuestra experiencia guiada para ver una lista personalizada y confidencial de resultados.",
+    "guidedSearchButton": "Prueba nuestra experiencia guiada."
+  }
 }

@@ -15,7 +15,10 @@ const domainLanguageDetector = {
 
   lookup() {
     const host = window.location.host;
-    if (host.includes("mipropiasenda")) {
+    if (
+      host.includes("mipropiasenda") ||
+      host.includes("directoriocuidadoscolorado")
+    ) {
       return "es";
     }
     return undefined;
