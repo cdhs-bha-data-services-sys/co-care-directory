@@ -122,7 +122,7 @@ function Home() {
                 }
                 cta={
                   <Link
-                    href="https://imattercolorado.org"
+                    href={t(`${T_PREFIX}_iMatter.link`)}
                     target="_blank"
                     variant="external"
                   >

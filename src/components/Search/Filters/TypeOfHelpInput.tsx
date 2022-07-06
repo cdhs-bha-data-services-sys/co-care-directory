@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Checkbox } from "@trussworks/react-uswds";
 import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
@@ -29,7 +30,7 @@ function TypeOfHelpInput({
 
   // TODO: consolidate getCheckbox logic? (see FeesPreferenceInput)
   const getCheckbox = (typeOfHelp: TypeOfHelp) => (
-    <>
+    <Fragment key={typeOfHelp}>
       <Checkbox
         id={typeOfHelp}
         name="type of help"
@@ -45,7 +46,7 @@ function TypeOfHelpInput({
             <p>{t("common.suicidalIdeationPopup.emergency")}</p>
           </div>
         )}
-    </>
+    </Fragment>
   );
 
   return (

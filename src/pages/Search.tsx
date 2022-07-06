@@ -87,6 +87,8 @@ const Mobile = ({ results }: { results: CareProviderSearchResult[] }) => {
   // Flag to track map vs list view
   const [isListView, setIsListView] = useState(true);
 
+  const { t } = useTranslation();
+
   // Leaflet map must be manually re-rendered as a workaround
   // to deal with initial hidden state when map is created
   // OR could just render map view first to avoid this special map manipulation
@@ -156,13 +158,13 @@ const Mobile = ({ results }: { results: CareProviderSearchResult[] }) => {
                   className="flex-align-center"
                   onClick={() => setSelectedResult(undefined)}
                 >
-                  Close <Close />
+                  {t("common.close")} <Close />
                 </Button>
               </Grid>
             </Grid>
             <ResultCard data={selectedResult}>
-              <Link className="usa-button" to={`result/${selectedResult.id}`}>
-                Full detail about this location
+              <Link className="usa-button" to={`/result/${selectedResult.id}`}>
+                {t("pages.search.fullDetailButton")}
               </Link>
             </ResultCard>
           </div>
@@ -173,7 +175,7 @@ const Mobile = ({ results }: { results: CareProviderSearchResult[] }) => {
             headingLevel=""
             className="radius-lg margin-y-2"
           >
-            Tap a marker to pull up information for that location.
+            {t("pages.search.mapHelper")}
           </Alert>
         )}
       </div>

@@ -10,7 +10,8 @@
     "_iMatter": {
       "heading": "Free therapy for youth",
       "content": "I Matter can connect youth 18 years of age and younger (21 years or younger if receiving special education services) with a therapist for up to 6 free and confidential counseling sessions.",
-      "cta": "Visit IMatterColorado.org to find a therapist and schedule an appointment."
+      "cta": "Visit IMatterColorado.org to find a therapist and schedule an appointment.",
+      "link": "https://imattercolorado.org"
     },
     "_bha": {
       "heading": "Our committment to you",
@@ -23,7 +24,9 @@
     "resultCount_one": "{{count}} result",
     "resultCount_other": "{{count}} results",
     "noResultsExpandRadius": "There are no results within {{miles}} miles. Search a wider distance to see more results.",
-    "noResultsGeneric": "There are no results within {{miles}} miles. Adjust the filters to expand your search."
+    "noResultsGeneric": "There are no results within {{miles}} miles. Adjust the filters to expand your search.",
+    "fullDetailButton": "Full detail about this location",
+    "mapHelper": "Tap a marker to pull up information for that location."
   },
   "resultDetail": {
     "backToSearch": "Back to search",
