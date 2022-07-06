@@ -240,30 +240,24 @@ function Search() {
             </div>
           </div>
           <div>
-            {searchResult.error ? (
-              <p className="text-error">{searchResult.error}</p>
-            ) : (
+            <h2 className="margin-y-2">
+              {t("pages.search.resultCount", {
+                count: searchResult.results.length,
+              })}
+            </h2>
+            {searchResult.results.length ? (
               <>
-                <h2 className="margin-y-2">
-                  {t("pages.search.resultCount", {
-                    count: searchResult.results.length,
-                  })}
-                </h2>
-                {searchResult.results.length ? (
-                  <>
-                    <Desktop results={searchResult.results} />
-                    <Mobile results={searchResult.results} />
-                  </>
-                ) : (
-                  <p>
-                    {isCurrentlyAtWidestRadius
-                      ? t("pages.search.noResultsGeneric")
-                      : t("pages.search.noResultsExpandRadius", {
-                          miles: searchFilters.miles,
-                        })}
-                  </p>
-                )}
+                <Desktop results={searchResult.results} />
+                <Mobile results={searchResult.results} />
               </>
+            ) : (
+              <p>
+                {isCurrentlyAtWidestRadius
+                  ? t("pages.search.noResultsGeneric")
+                  : t("pages.search.noResultsExpandRadius", {
+                      miles: searchFilters.miles,
+                    })}
+              </p>
             )}
           </div>
         </GridContainer>

@@ -140,35 +140,25 @@ describe("compareDistance", () => {
 });
 
 describe("getMatchingCare", () => {
-  describe("error", () => {
-    test("it does not return error if valid CO zipcode provided", () => {
-      const { error } = getMatchingCare([DUMMY_CARE_PROVIDER], {
-        zip: VALID_CO_ZIP,
-        miles: `${DEFAULT_RADIUS_MILES}`,
-        typesOfHelp: [],
-        feePreferences: [],
-      });
-      expect(error).toBeNull();
-    });
-
-    test("it returns error if provided zip is not valid - length < 5", () => {
-      const { error } = getMatchingCare([DUMMY_CARE_PROVIDER], {
+  describe("bad zip", () => {
+    test("it returns no results if provided zip is not valid - length < 5", () => {
+      const { results } = getMatchingCare([DUMMY_CARE_PROVIDER], {
         zip: INVALID_ZIP,
         miles: `${DEFAULT_RADIUS_MILES}`,
         typesOfHelp: [],
         feePreferences: [],
       });
-      expect(error).not.toBeNull();
+      expect(results.length).toEqual(0);
     });
 
-    test("it returns error if provided zip is not valid - not in CO list", () => {
-      const { error } = getMatchingCare([DUMMY_CARE_PROVIDER], {
+    test("it returns no results if provided zip is not valid - not in CO list", () => {
+      const { results } = getMatchingCare([DUMMY_CARE_PROVIDER], {
         zip: VALID_NOT_CO_ZIP,
         miles: `${DEFAULT_RADIUS_MILES}`,
         typesOfHelp: [],
         feePreferences: [],
       });
-      expect(error).not.toBeNull();
+      expect(results.length).toEqual(0);
     });
   });
 

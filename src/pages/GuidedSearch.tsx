@@ -1,6 +1,7 @@
 import {
   Alert,
   Button,
+  ErrorMessage,
   Form,
   GridContainer,
   StepIndicatorStep,
@@ -16,7 +17,6 @@ import { FilterFieldset } from "../components/Search/Filters/Control";
 import DistanceInput from "../components/Search/Filters/DistanceInput";
 import TypeOfHelpInput from "../components/Search/Filters/TypeOfHelpInput";
 import { SearchFilters, TypeOfHelp } from "../types";
-import { DEFAULT_RADIUS_MILES } from "../util";
 
 const GUIDED_SEARCH_STEPS = [
   "helpRecipient",
@@ -31,6 +31,7 @@ const getStepStatus = (thisIdx: number, currentStepIdx: number) => {
   return "incomplete";
 };
 
+// TODO: validate zip
 function GuidedSearch() {
   const { t } = useTranslation();
   const T_PREFIX = "pages.guidedSearch.";
@@ -40,7 +41,7 @@ function GuidedSearch() {
   // Object containing search filters from input from completed steps
   const [searchFilters, setSearchFilters] = useState<SearchFilters>({
     zip: "",
-    miles: `${DEFAULT_RADIUS_MILES}`,
+    miles: "",
     typesOfHelp: [],
     feePreferences: [],
   });
@@ -50,8 +51,9 @@ function GuidedSearch() {
     HelpRecipient.Yourself
   );
 
-  // Error to display to user if they're blocked from progressing
-  const [error, setError] = useState("");
+  const [isValidZip, setIsValidZip] = useState<boolean>(false);
+  // don't show validation errors until clicking next or clicking out of input
+  const [showZipValidation, setShowZipValidation] = useState<boolean>(false);
 
   // Helper func to progress through steps, or navigate to
   // search results with supplied filters if all steps completed
@@ -88,29 +90,19 @@ function GuidedSearch() {
       <Form
         className="margin-y-4"
         onSubmit={(e) => {
-          console.log(e);
           e.preventDefault();
           // zip is the only REQUIRED step
           // because zip is the only REQUIRED filter
-          // TODO: replace this with calling getMatchingCare
-          // and using error from there; this will also enable
-          // showing counts for results alongside distance options
+          // TODO: show count of results by distance after entering zip
           if (currentStep === "location") {
-            if (!searchFilters.zip) {
-              setError("Zip code is required!");
+            if (!isValidZip) {
+              setShowZipValidation(true);
               return;
-            } else {
-              setError("");
             }
           }
           goToNextStep();
         }}
       >
-        {error && (
-          <Alert noIcon type="error" headingLevel="h2">
-            {error}
-          </Alert>
-        )}
         <div className="margin-y-2">
           {currentStep === "helpRecipient" ? (
             <HelpRecipientInput
@@ -133,7 +125,15 @@ function GuidedSearch() {
             />
           ) : currentStep === "location" ? (
             <FilterFieldset legend={t(`${T_PREFIX}location.question`)}>
-              <ZipInput filters={searchFilters} setFilters={setSearchFilters} />
+              <ZipInput
+                filters={searchFilters}
+                setFilters={setSearchFilters}
+                setIsValidZip={setIsValidZip}
+                onBlur={() => setShowZipValidation(true)}
+              />
+              {showZipValidation && !isValidZip && (
+                <ErrorMessage>{t("common.zipCodeError")}</ErrorMessage>
+              )}
             </FilterFieldset>
           ) : currentStep === "distance" ? (
             <DistanceInput

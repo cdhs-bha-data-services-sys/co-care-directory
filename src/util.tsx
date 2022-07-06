@@ -13,10 +13,13 @@ import {
   ZipData,
   TypeOfHelp,
   FeePreference,
+  ZipSearchMetadata,
 } from "./types";
 import coloradoZipData from "./data/colorado_zip_data.json";
 
 export const DEFAULT_RADIUS_MILES = 10;
+export const DEFAULT_DENSE_RADIUS_MILES = 5;
+export const DENSITY_CUTOFF_POP_PER_SQ_MI = 1000;
 
 export const METERS_IN_A_MILE = 1609.34;
 
@@ -119,37 +122,50 @@ export const meetsFeePreferences = (
   );
 };
 
+// TODO: tests
+export const getZipSearchMetadata = (zip: string): ZipSearchMetadata => {
+  if (zip.length !== 5) {
+    return { isValidZip: false };
+  }
+  const data = (coloradoZipData as ZipData)[zip];
+  if (!data) {
+    return { isValidZip: false };
+  }
+  const defaultRadiusMiles =
+    data.POP_SQMI && data.POP_SQMI > DENSITY_CUTOFF_POP_PER_SQ_MI
+      ? DEFAULT_DENSE_RADIUS_MILES
+      : DEFAULT_RADIUS_MILES;
+  return {
+    isValidZip: true,
+    defaultRadiusMiles,
+    center: { lat: data.centroid_lat, lng: data.centroid_lon },
+  };
+};
+
 // TODO: figure out how to limit results if there are too many
 export function getMatchingCare(
   careData: CareProvider[],
   filters: SearchFilters
 ): SearchResult {
   const { zip, miles: milesStr, typesOfHelp, feePreferences } = filters;
-  const miles = parseInt(milesStr);
-  if (zip.length !== 5) {
-    return {
-      results: [],
-      error: "Please enter a valid zip code",
-    };
-  }
 
-  // get zip code center
-  const center = getZipCenter(zip);
-  if (!center) {
+  const zipSearchMetadata = getZipSearchMetadata(zip);
+  if (!zipSearchMetadata.isValidZip) {
     return {
       results: [],
-      error: "This is not a valid zip code in Colorado",
     };
   }
+  const miles =
+    (milesStr && parseInt(milesStr)) || zipSearchMetadata.defaultRadiusMiles;
 
   // calculate distance, apply filters, & sort results by distance
-  const results = addSearchMetadata(careData, center)
+  const results = addSearchMetadata(careData, zipSearchMetadata.center)
     .filter((result) => isWithinRadius(result, miles))
     .filter((result) => offersAnyTypesOfHelpNeeded(result, typesOfHelp))
     .filter((result) => meetsFeePreferences(result, feePreferences))
     .sort(compareDistance);
 
-  return { results, error: null };
+  return { results };
 }
 
 /**
@@ -162,7 +178,7 @@ export function getFiltersFromSearchParams(
 ): SearchFilters {
   return {
     zip: searchParams.get("zip") ?? "",
-    miles: searchParams.get("miles") ?? `${DEFAULT_RADIUS_MILES}`,
+    miles: searchParams.get("miles") ?? "",
     // TODO: how to enforce type?
     typesOfHelp: searchParams.getAll("typesOfHelp") as TypeOfHelp[],
     feePreferences: searchParams.getAll("fees") as FeePreference[],

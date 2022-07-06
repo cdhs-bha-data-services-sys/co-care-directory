@@ -1,3 +1,5 @@
+import { LatLngLiteral } from "leaflet";
+
 export type DailyHours =
   | {
       open: true;
@@ -138,7 +140,6 @@ export type CareProviderSearchResult = CareProvider &
 
 export type SearchResult = {
   results: CareProviderSearchResult[];
-  error: string | null;
 };
 
 export interface ZipData {
@@ -152,6 +153,10 @@ export interface ZipData {
     centroid_lat: number;
   };
 }
+
+export type ZipSearchMetadata =
+  | { isValidZip: false }
+  | { isValidZip: true; defaultRadiusMiles: number; center: LatLngLiteral };
 
 export type SearchFilters = {
   zip: string;
