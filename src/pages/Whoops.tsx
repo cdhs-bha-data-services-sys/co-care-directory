@@ -1,17 +1,20 @@
 import { GridContainer, Grid } from "@trussworks/react-uswds";
-import { Link } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 function Whoops() {
+  const { t } = useTranslation();
+  const T_PREFIX = "pages.whoops.";
   return (
     <GridContainer>
       <Grid row className="flex-justify-center">
-        <h1>Whoops!</h1>
+        <h1>{t(`${T_PREFIX}heading`)}</h1>
       </Grid>
       <Grid row className="flex-justify-center">
-        <Link to="/">Return to homepage</Link>
+        <Link to="/">{t(`${T_PREFIX}returnToHome`)}</Link>
       </Grid>
     </GridContainer>
-  )
+  );
 }
 
 export default Whoops;

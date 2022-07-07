@@ -131,5 +131,9 @@
       "distance": "How far are you, or the person you care about, able to travel for care?",
       "withinMiles": "Within {{n}} miles"
     }
+  },
+  "whoops": {
+    "heading": "Whoops!",
+    "returnToHome": "Return to homepage"
   }
 }
