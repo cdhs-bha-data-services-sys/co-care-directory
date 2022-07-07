@@ -104,7 +104,10 @@ const Mobile = ({ results }: { results: CareProviderSearchResult[] }) => {
   const [selectedResult, setSelectedResult] =
     useState<CareProviderSearchResult>();
   return (
-    <div className="tablet:display-none" aria-hidden>
+    <div
+      className="tablet:display-none border-top border-base-lighter"
+      aria-hidden
+    >
       <MobileViewToggle
         isListView={isListView}
         onShowMap={onShowMap}
@@ -224,27 +227,23 @@ function Search() {
     <div className="Search">
       {searchResult && (
         <GridContainer>
-          <div className="border-bottom border-base-lighter">
-            <h1 className="margin-y-2">
-              {t("pages.search.heading")} {searchFilters.zip}
-            </h1>
-            <div className="margin-y-2">
-              <Control
-                currentFilters={searchFilters}
-                onApplyFilters={(filters) => {
-                  setSearchFilters(filters);
-                  performSearch(filters);
-                  setSearchParams(filters);
-                }}
-              />
-            </div>
+          <h1 className="margin-y-2">
+            {t("pages.search.resultCount", {
+              count: searchResult.results.length,
+              zip: searchFilters.zip,
+            })}
+          </h1>
+          <div className="margin-y-2">
+            <Control
+              currentFilters={searchFilters}
+              onApplyFilters={(filters) => {
+                setSearchFilters(filters);
+                performSearch(filters);
+                setSearchParams(filters);
+              }}
+            />
           </div>
           <div>
-            <h2 className="margin-y-2">
-              {t("pages.search.resultCount", {
-                count: searchResult.results.length,
-              })}
-            </h2>
             {searchResult.results.length ? (
               <>
                 <Desktop results={searchResult.results} />

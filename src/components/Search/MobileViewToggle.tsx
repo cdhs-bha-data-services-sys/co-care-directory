@@ -12,7 +12,7 @@ function MobileViewToggle({
   onShowList,
 }: MobileViewToggleProps) {
   return (
-    <div className="margin-bottom-2">
+    <div className="margin-y-2">
       <ButtonGroup type="segmented">
         <Button
           type="button"

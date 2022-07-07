@@ -20,9 +20,8 @@
     }
   },
   "search": {
-    "heading": "Results near",
-    "resultCount_one": "{{count}} result",
-    "resultCount_other": "{{count}} results",
+    "resultCount_one": "{{count}} result near {{zip}}",
+    "resultCount_other": "{{count}} results near {{zip}}",
     "noResultsExpandRadius": "There are no results within {{miles}} miles. Search a wider distance to see more results.",
     "noResultsGeneric": "There are no results within {{miles}} miles. Adjust the filters to expand your search.",
     "fullDetailButton": "Full detail about this location",
