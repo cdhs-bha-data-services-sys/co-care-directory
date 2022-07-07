@@ -6,7 +6,7 @@
   "footer": {
     "feedbackPrompt": "Have a suggestion for improvement on this website?",
     "feedbackCta": "Submit a suggestion on this Google form.",
-    "betaExplanation": "Ownpath is in BETA (active development), as we work to improve performance and add features to the site."
+    "betaExplanation": "OwnPath is in BETA (active development), as we work to improve performance and add features to the site."
   },
   "search": {
     "milesAway": "{{ miles }} miles away",
