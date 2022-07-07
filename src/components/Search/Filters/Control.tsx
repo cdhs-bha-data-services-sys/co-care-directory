@@ -1,4 +1,4 @@
-import { Button, Fieldset } from "@trussworks/react-uswds";
+import { Button, Fieldset, Form } from "@trussworks/react-uswds";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
@@ -54,7 +54,13 @@ function SearchFiltersControl({
   }, [isExpanded]);
 
   return (
-    <div>
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onApplyFilters(filters);
+        setIsExpanded(false);
+      }}
+    >
       <Button
         type="button"
         className="radius-pill"
@@ -108,14 +114,7 @@ function SearchFiltersControl({
             tPrefix={`${T_PREFIX}filters.feePreference.`}
           />
         </div>
-        <Button
-          type="button"
-          className="usa-button"
-          onClick={() => {
-            onApplyFilters(filters);
-            setIsExpanded(false);
-          }}
-        >
+        <Button type="submit" className="usa-button">
           {t(`${T_PREFIX}viewResultsButton`)}
         </Button>
         <div className="padding-top-2">
@@ -124,7 +123,7 @@ function SearchFiltersControl({
           </Button>
         </div>
       </div>
-    </div>
+    </Form>
   );
 }
 

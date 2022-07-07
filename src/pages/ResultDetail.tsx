@@ -21,8 +21,16 @@ import Horizontal from "../components/Horizontal";
 import { getGoogleMapsDirectionsURL } from "../util";
 import CommaSeparatedList from "../components/CommaSeparatedList";
 import BulletedList from "../components/BulletedList";
+import { useEffect } from "react";
 
 function ResultDetail() {
+  // Ensure user sees the top of the page
+  // (when coming from scrolled results list,
+  // they were landing at the same y-coordinate)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const { t } = useTranslation();
   const T_PREFIX = "pages.resultDetail.";
   const location = useLocation();

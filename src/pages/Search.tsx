@@ -34,6 +34,19 @@ import { ReactComponent as Close } from "../images/close.svg";
  */
 const Desktop = ({ results }: { results: CareProviderSearchResult[] }) => {
   const [selectedResultId, setSelectedResultId] = useState<string>("");
+  const mapRef = useRef<LeafletMap>(null);
+  const rerenderMap = () => {
+    setTimeout(() => {
+      mapRef.current?.fitBounds(getResultBounds(results), { animate: false });
+    }, 100);
+  };
+
+  // Rerender map whenever search filters change to ensure map displays
+  // filtered results correctly
+  useEffect(() => {
+    rerenderMap();
+  }, [results]);
+
   return (
     <div className="display-none tablet:display-block">
       <Grid row className="border-top border-base-lighter">
@@ -46,7 +59,7 @@ const Desktop = ({ results }: { results: CareProviderSearchResult[] }) => {
         </Grid>
         <Grid tablet={{ col: 7 }} key="desktop-map">
           <div className="border-right border-left border-base-lighter">
-            <ResultsMap bounds={getResultBounds(results)}>
+            <ResultsMap bounds={getResultBounds(results)} mapRef={mapRef}>
               {results
                 .filter((result) => !!result.latlng)
                 .map((result) => (
@@ -89,16 +102,26 @@ const Mobile = ({ results }: { results: CareProviderSearchResult[] }) => {
 
   const { t } = useTranslation();
 
-  // Leaflet map must be manually re-rendered as a workaround
-  // to deal with initial hidden state when map is created
-  // OR could just render map view first to avoid this special map manipulation
   const mapRef = useRef<LeafletMap>(null);
+  const rerenderMap = () => {
+    setTimeout(() => {
+      mapRef.current?.fitBounds(getResultBounds(results), { animate: false });
+    }, 100);
+  };
+
+  // Rerender map whenever search filters change to ensure map displays
+  // filtered results correctly
+  useEffect(() => {
+    rerenderMap();
+  }, [results]);
+
+  // invalidate size and rerender map when user switches to map view
+  // to ensure it displays correctly despite having been `display: none`
+  // https://stackoverflow.com/a/36257493
   const onShowMap = () => {
     setIsListView(false);
-    setTimeout(() => {
-      mapRef.current?.invalidateSize();
-      mapRef.current?.fitBounds(getResultBounds(results));
-    }, 100);
+    mapRef.current?.invalidateSize();
+    rerenderMap();
   };
 
   const [selectedResult, setSelectedResult] =
