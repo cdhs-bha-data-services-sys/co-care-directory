@@ -14,6 +14,7 @@ import {
   TypeOfHelp,
   FeePreference,
   ZipSearchMetadata,
+  AccessibilityOptions,
 } from "./types";
 import coloradoZipData from "./data/colorado_zip_data.json";
 
@@ -123,6 +124,20 @@ export const meetsFeePreferences = (
 };
 
 // TODO: tests
+export const meetsAccessibilityNeeds = (
+  careProvider: CareProviderSearchResult,
+  accessibilityNeeds: AccessibilityOptions[]
+): boolean => {
+  // if no payment preferences specified, don't apply any filter
+  if (!accessibilityNeeds.length) {
+    return true;
+  }
+
+  // check that provider meets all accessibility needs
+  return accessibilityNeeds.every((need) => careProvider.accessibility[need]);
+};
+
+// TODO: tests
 export const getZipSearchMetadata = (zip: string): ZipSearchMetadata => {
   if (zip.length !== 5) {
     return { isValidZip: false };
@@ -147,7 +162,13 @@ export function getMatchingCare(
   careData: CareProvider[],
   filters: SearchFilters
 ): SearchResult {
-  const { zip, miles: milesStr, typesOfHelp, feePreferences } = filters;
+  const {
+    zip,
+    miles: milesStr,
+    typesOfHelp,
+    feePreferences,
+    accessibility,
+  } = filters;
 
   const zipSearchMetadata = getZipSearchMetadata(zip);
   if (!zipSearchMetadata.isValidZip) {
@@ -163,6 +184,7 @@ export function getMatchingCare(
     .filter((result) => isWithinRadius(result, miles))
     .filter((result) => offersAnyTypesOfHelpNeeded(result, typesOfHelp))
     .filter((result) => meetsFeePreferences(result, feePreferences))
+    .filter((result) => meetsAccessibilityNeeds(result, accessibility))
     .sort(compareDistance);
 
   return { results };
@@ -182,8 +204,19 @@ export function getFiltersFromSearchParams(
     // TODO: how to enforce type?
     typesOfHelp: searchParams.getAll("typesOfHelp") as TypeOfHelp[],
     feePreferences: searchParams.getAll("fees") as FeePreference[],
+    accessibility: searchParams.getAll(
+      "accessibility"
+    ) as AccessibilityOptions[],
   };
 }
+
+export const EMPTY_SEARCH_FILTERS = {
+  zip: "",
+  miles: "",
+  typesOfHelp: [],
+  feePreferences: [],
+  accessibility: [],
+};
 
 /**
  * Helper function to get bounds for the search result map

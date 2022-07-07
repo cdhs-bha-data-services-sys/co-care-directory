@@ -163,6 +163,7 @@ export type SearchFilters = {
   miles: string;
   typesOfHelp: TypeOfHelp[];
   feePreferences: FeePreference[];
+  accessibility: AccessibilityOptions[];
 };
 
 export enum TypeOfHelp {

@@ -1,45 +1,48 @@
 import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
-import { FeePreference, SearchFilters } from "../../../types";
+import {
+  AccessibilityOptions,
+  ACCESSIBILITY_OPTIONS,
+  SearchFilters,
+} from "../../../types";
 import { toggleItemInList } from "../../../util";
 import { FilterFieldset } from "./Control";
 import FilterCheckbox from "./FilterCheckbox";
 
-type FeesPreferenceInputProps = {
+type AccessibilityInputProps = {
   filters: SearchFilters;
   setFilters: Dispatch<SetStateAction<SearchFilters>>;
   tPrefix: string;
 };
 
-function FeesPreferenceInput({
+function AccessibilityInput({
   filters,
   setFilters,
   tPrefix,
-}: FeesPreferenceInputProps) {
+}: AccessibilityInputProps) {
   const { t } = useTranslation();
 
-  const setFeePreferenceFilter = (feePreference: FeePreference) => {
+  const setAccessibilityFilter = (
+    accessibilityOption: AccessibilityOptions
+  ) => {
     setFilters({
       ...filters,
-      feePreferences: toggleItemInList(filters.feePreferences, feePreference),
+      accessibility: toggleItemInList(
+        filters.accessibility,
+        accessibilityOption
+      ),
     });
   };
 
-  const options = [
-    "PrivateInsurance",
-    "Medicaid",
-    "SlidingFeeScale",
-  ] as FeePreference[];
-
   return (
     <FilterFieldset legend={t(`${tPrefix}question`)}>
-      {options.map((option) => (
+      {ACCESSIBILITY_OPTIONS.map((option) => (
         <FilterCheckbox
-          name="payment options"
+          name="accessibility"
           value={option}
           tPrefix={`${tPrefix}answers`}
-          selectedFilterValues={filters.feePreferences}
-          onChange={() => setFeePreferenceFilter(option)}
+          selectedFilterValues={filters.accessibility}
+          onChange={() => setAccessibilityFilter(option)}
           key={option}
         />
       ))}
@@ -47,4 +50,4 @@ function FeesPreferenceInput({
   );
 }
 
-export default FeesPreferenceInput;
+export default AccessibilityInput;

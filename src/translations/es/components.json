@@ -35,6 +35,14 @@
           "PrivateInsurance": "Seguro privado",
           "SlidingFeeScale": "Opciones de pago según ingresos"
         }
+      },
+      "accessibility": {
+        "question": "Accesibilidad",
+        "answers": {
+          "Deaf/HardofHearing": "Apoyo para personas con un impedimento auditivo o sordera",
+          "VisuallyImpaired": "Apoyo para personas con un impedimento visual o ceguera",
+          "Wheelchair": "Apoyo para personas que usa una silla de ruedas"
+        }
       }
     }
   },

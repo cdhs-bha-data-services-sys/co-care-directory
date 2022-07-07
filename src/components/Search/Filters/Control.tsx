@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { SearchFilters, TypeOfHelp } from "../../../types";
+import AccessibilityInput from "./AccessibilityInput";
 import DistanceInput from "./DistanceInput";
 import FeesPreferenceInput from "./FeesPreferenceInput";
 import TypeOfHelpInput from "./TypeOfHelpInput";
@@ -112,6 +113,13 @@ function SearchFiltersControl({
             filters={filters}
             setFilters={setFilters}
             tPrefix={`${T_PREFIX}filters.feePreference.`}
+          />
+        </div>
+        <div className="margin-y-3">
+          <AccessibilityInput
+            filters={filters}
+            setFilters={setFilters}
+            tPrefix={`${T_PREFIX}filters.accessibility.`}
           />
         </div>
         <Button type="submit" className="usa-button">

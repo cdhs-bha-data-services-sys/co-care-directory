@@ -17,6 +17,7 @@ import { FilterFieldset } from "../components/Search/Filters/Control";
 import DistanceInput from "../components/Search/Filters/DistanceInput";
 import TypeOfHelpInput from "../components/Search/Filters/TypeOfHelpInput";
 import { SearchFilters, TypeOfHelp } from "../types";
+import { EMPTY_SEARCH_FILTERS } from "../util";
 
 const GUIDED_SEARCH_STEPS = [
   "helpRecipient",
@@ -39,12 +40,8 @@ function GuidedSearch() {
   // Index of current step
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
   // Object containing search filters from input from completed steps
-  const [searchFilters, setSearchFilters] = useState<SearchFilters>({
-    zip: "",
-    miles: "",
-    typesOfHelp: [],
-    feePreferences: [],
-  });
+  const [searchFilters, setSearchFilters] =
+    useState<SearchFilters>(EMPTY_SEARCH_FILTERS);
 
   // Care target to display appropriate copy for `type of help` step
   const [helpRecipient, setHelpRecipient] = useState<HelpRecipient>(

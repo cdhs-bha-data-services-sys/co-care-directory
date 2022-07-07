@@ -20,6 +20,7 @@ import {
   isWithinRadius,
   compareDistance,
   getMatchingCare,
+  EMPTY_SEARCH_FILTERS,
 } from "./util";
 
 const DUMMY_CARE_PROVIDER: CareProvider = {
@@ -143,20 +144,18 @@ describe("getMatchingCare", () => {
   describe("bad zip", () => {
     test("it returns no results if provided zip is not valid - length < 5", () => {
       const { results } = getMatchingCare([DUMMY_CARE_PROVIDER], {
+        ...EMPTY_SEARCH_FILTERS,
         zip: INVALID_ZIP,
         miles: `${DEFAULT_RADIUS_MILES}`,
-        typesOfHelp: [],
-        feePreferences: [],
       });
       expect(results.length).toEqual(0);
     });
 
     test("it returns no results if provided zip is not valid - not in CO list", () => {
       const { results } = getMatchingCare([DUMMY_CARE_PROVIDER], {
+        ...EMPTY_SEARCH_FILTERS,
         zip: VALID_NOT_CO_ZIP,
         miles: `${DEFAULT_RADIUS_MILES}`,
-        typesOfHelp: [],
-        feePreferences: [],
       });
       expect(results.length).toEqual(0);
     });
@@ -186,10 +185,9 @@ describe("getMatchingCare", () => {
     ];
 
     const { results } = getMatchingCare(DATA, {
+      ...EMPTY_SEARCH_FILTERS,
       zip: VALID_CO_ZIP,
       miles: `${DEFAULT_RADIUS_MILES}`,
-      typesOfHelp: [],
-      feePreferences: [],
     });
 
     // Only 'close' and 'further' should be returned in results

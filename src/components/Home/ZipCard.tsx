@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { SearchFilters } from "../../types";
+import { EMPTY_SEARCH_FILTERS } from "../../util";
 import ZipInput from "./ZipInput";
 
 const ZipButton = styled(Button)`
@@ -13,12 +14,7 @@ const ZipButton = styled(Button)`
 `;
 
 function ZipCard() {
-  const [filters, setFilters] = useState<SearchFilters>({
-    zip: "",
-    miles: "",
-    typesOfHelp: [],
-    feePreferences: [],
-  });
+  const [filters, setFilters] = useState<SearchFilters>(EMPTY_SEARCH_FILTERS);
 
   const { t } = useTranslation();
   const navigate = useNavigate();

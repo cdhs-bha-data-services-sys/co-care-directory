@@ -35,6 +35,14 @@
           "PrivateInsurance": "Private insurance",
           "SlidingFeeScale": "Sliding fee scale"
         }
+      },
+      "accessibility": {
+        "question": "Accessibility",
+        "answers": {
+          "Deaf/HardofHearing": "Support for a person with a hearing impairment or who is deaf",
+          "VisuallyImpaired": "Support for a person with a visual impairment or who is blind",
+          "Wheelchair": "Support for a person who uses a wheelchair"
+        }
       }
     }
   },
