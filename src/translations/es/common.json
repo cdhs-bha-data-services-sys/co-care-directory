@@ -2,11 +2,12 @@
   "getDirections": "Obtén instrucciones para llegar",
   "privacyPolicy": "Norma de privacidad",
   "cancel": "Cancelar",
-  "close": "Cerca",
+  "close": "Cierra",
   "suicidalIdeationPopup": {
     "crisisServices": "Sin importar por lo que estés pasando, hay ayuda disponible. Llama a los Servicios de Crisis en Colorado al 844-493-TALK (8255) o envía un mensaje de texto con la palabra TALK al 38255.",
     "emergency": "Si estás teniendo una emergencia médica, por favor llama al 911."
   },
   "zipCode": "Código postal",
+  "zipCodeError": "Por favor ingresa un código postal válido de Colorado",
   "feedbackUrl": "https://docs.google.com/forms/d/e/1FAIpQLSdoan0__hPL8XKHjhbghd8nWHYoOu0qfo56tgHGHMJuVNA9Sg/viewform"
 }
