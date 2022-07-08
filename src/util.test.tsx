@@ -13,6 +13,7 @@ import {
   POPULATIONS_SERVED,
   SubstanceUseServices,
   SUBSTANCE_USE_SERVICES,
+  TypeOfHelp,
 } from "./types";
 import {
   DEFAULT_RADIUS_MILES,
@@ -21,6 +22,12 @@ import {
   compareDistance,
   getMatchingCare,
   EMPTY_SEARCH_FILTERS,
+  getZipSearchMetadata,
+  DEFAULT_DENSE_RADIUS_MILES,
+  offersTypeOfHelp,
+  offersAnyTypesOfHelpNeeded,
+  meetsFeePreferences,
+  meetsAccessibilityNeeds,
 } from "./util";
 
 const DUMMY_CARE_PROVIDER: CareProvider = {
@@ -124,6 +131,11 @@ describe("isWithinRadius", () => {
       expect(result).toEqual(expected);
     }
   );
+
+  test("it returns false if there is no distance", () => {
+    const result = isWithinRadius(DUMMY_CARE_PROVIDER, 1000);
+    expect(result).toEqual(false);
+  });
 });
 
 describe("compareDistance", () => {
@@ -196,5 +208,148 @@ describe("getMatchingCare", () => {
     // and results should be sorted by distance
     expect(results[0].id).toEqual("close");
     expect(results[1].id).toEqual("further");
+  });
+});
+
+describe("getZipSearchMetadata", () => {
+  test("detects invalid zips", () => {
+    const noZip = getZipSearchMetadata("");
+    const badZip = getZipSearchMetadata("123");
+    const zipOutsideColorado = getZipSearchMetadata("90210");
+    expect(noZip.isValidZip).toEqual(false);
+    expect(badZip.isValidZip).toEqual(false);
+    expect(zipOutsideColorado.isValidZip).toEqual(false);
+  });
+
+  test("sets a smaller radius for denser zips", () => {
+    const denverZip = getZipSearchMetadata("80203");
+    expect(denverZip.isValidZip && denverZip.defaultRadiusMiles).toEqual(
+      DEFAULT_DENSE_RADIUS_MILES
+    );
+  });
+
+  test("sets a larger radius for less dense zips", () => {
+    const vailZip = getZipSearchMetadata("81657");
+    expect(vailZip.isValidZip && vailZip.defaultRadiusMiles).toEqual(
+      DEFAULT_RADIUS_MILES
+    );
+  });
+});
+
+describe("offersTypeOfHelp", () => {
+  test("identifies if court mandated treatment is supported", () => {
+    const duiSupportedProvider = {
+      ...DUMMY_CARE_PROVIDER,
+      substanceUse: {
+        ...DUMMY_CARE_PROVIDER.substanceUse,
+        duiSupported: true,
+      },
+    };
+    const intensiveOutpatient = {
+      ...DUMMY_CARE_PROVIDER,
+      mentalHealth: {
+        ...DUMMY_CARE_PROVIDER.mentalHealth,
+        services: {
+          ...DUMMY_CARE_PROVIDER.mentalHealth.services,
+          IntensiveOutpatient: true,
+        },
+      },
+    };
+    expect(
+      offersTypeOfHelp(DUMMY_CARE_PROVIDER, TypeOfHelp.CourtMandatedTreatment)
+    ).toEqual(false);
+    expect(
+      offersTypeOfHelp(duiSupportedProvider, TypeOfHelp.CourtMandatedTreatment)
+    ).toEqual(true);
+    expect(
+      offersTypeOfHelp(intensiveOutpatient, TypeOfHelp.CourtMandatedTreatment)
+    ).toEqual(true);
+  });
+});
+
+describe("offersAnyTypesOfHelpNeeded", () => {
+  test("true if some but not all types of help are offered", () => {
+    const substanceUseProvider = {
+      ...DUMMY_CARE_PROVIDER,
+      substanceUse: {
+        ...DUMMY_CARE_PROVIDER.substanceUse,
+        supported: true,
+      },
+    };
+    expect(
+      offersAnyTypesOfHelpNeeded(substanceUseProvider, [
+        TypeOfHelp.MentalHealth,
+      ])
+    ).toEqual(false);
+    expect(
+      offersAnyTypesOfHelpNeeded(substanceUseProvider, [
+        TypeOfHelp.SubstanceUse,
+        TypeOfHelp.MentalHealth,
+      ])
+    ).toEqual(true);
+  });
+
+  test("true if no types of help are specified", () => {
+    expect(offersAnyTypesOfHelpNeeded(DUMMY_CARE_PROVIDER, [])).toEqual(true);
+    expect(
+      offersAnyTypesOfHelpNeeded(DUMMY_CARE_PROVIDER, [TypeOfHelp.None])
+    ).toEqual(true);
+    expect(
+      offersAnyTypesOfHelpNeeded(DUMMY_CARE_PROVIDER, [TypeOfHelp.Unsure])
+    ).toEqual(true);
+  });
+});
+
+describe("meetsFeePreferences", () => {
+  test("true if no fee preferences are specified", () => {
+    expect(meetsFeePreferences(DUMMY_CARE_PROVIDER, [])).toEqual(true);
+  });
+
+  test("true if some but not all fee preferences are offered", () => {
+    const medicaidProvider = {
+      ...DUMMY_CARE_PROVIDER,
+      fees: { ...DUMMY_CARE_PROVIDER.fees, Medicaid: true },
+    };
+    expect(meetsFeePreferences(medicaidProvider, ["SlidingFeeScale"])).toEqual(
+      false
+    );
+    expect(
+      meetsFeePreferences(medicaidProvider, ["SlidingFeeScale", "Medicaid"])
+    ).toEqual(true);
+  });
+});
+
+describe("meetsAccessibilityNeeds", () => {
+  test("true if no accessibility needs are specified", () => {
+    expect(meetsAccessibilityNeeds(DUMMY_CARE_PROVIDER, [])).toEqual(true);
+  });
+
+  test("true only if all needs are met", () => {
+    const wheelchairProvider = {
+      ...DUMMY_CARE_PROVIDER,
+      accessibility: { ...DUMMY_CARE_PROVIDER.accessibility, Wheelchair: true },
+    };
+    const wheelchairAndDeafProvider = {
+      ...wheelchairProvider,
+      accessibility: {
+        ...wheelchairProvider.accessibility,
+        "Deaf/HardofHearing": true,
+      },
+    };
+    expect(meetsAccessibilityNeeds(wheelchairProvider, ["Wheelchair"])).toEqual(
+      true
+    );
+    expect(
+      meetsAccessibilityNeeds(wheelchairProvider, [
+        "Wheelchair",
+        "Deaf/HardofHearing",
+      ])
+    ).toEqual(false);
+    expect(
+      meetsAccessibilityNeeds(wheelchairAndDeafProvider, [
+        "Wheelchair",
+        "Deaf/HardofHearing",
+      ])
+    ).toEqual(true);
   });
 });

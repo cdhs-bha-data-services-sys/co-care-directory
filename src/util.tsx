@@ -1,10 +1,4 @@
-import {
-  latLng,
-  latLngBounds,
-  LatLngExpression,
-  LatLngLiteral,
-  LatLngTuple,
-} from "leaflet";
+import { latLng, latLngBounds, LatLngExpression, LatLngTuple } from "leaflet";
 import {
   CareProvider,
   CareProviderSearchResult,
@@ -25,11 +19,6 @@ export const DENSITY_CUTOFF_POP_PER_SQ_MI = 1000;
 export const METERS_IN_A_MILE = 1609.34;
 
 export const MILE_DISTANCE_OPTIONS = ["5", "10", "50", "100"];
-
-export const getZipCenter = (zip: string): LatLngLiteral | null => {
-  const data = (coloradoZipData as ZipData)[zip];
-  return data ? { lat: data.centroid_lat, lng: data.centroid_lon } : null;
-};
 
 export const addSearchMetadata = (
   careProviders: CareProvider[],
@@ -63,7 +52,6 @@ export const compareDistance = (
   return a.distance - b.distance;
 };
 
-// TODO: tests
 export const offersTypeOfHelp = (
   careProvider: CareProviderSearchResult,
   typeOfHelp: TypeOfHelp
@@ -80,22 +68,19 @@ export const offersTypeOfHelp = (
       return careProvider.mentalHealth.supported;
     case TypeOfHelp.SuicidalIdeation:
       return careProvider.mentalHealth.supported;
+    case TypeOfHelp.Unsure:
+      return true;
+    case TypeOfHelp.None:
+      return true;
     default:
       return false;
   }
 };
 
-// TODO: tests
 export const offersAnyTypesOfHelpNeeded = (
   careProvider: CareProviderSearchResult,
   helpNeeded: TypeOfHelp[]
 ): boolean => {
-  // remove user-facing no-op types from applied filters
-  helpNeeded = helpNeeded.filter(
-    (typeOfHelp) =>
-      typeOfHelp !== TypeOfHelp.Unsure && typeOfHelp !== TypeOfHelp.None
-  );
-
   // if no help types specified, don't apply any filter
   if (!helpNeeded.length) {
     return true;
@@ -107,7 +92,6 @@ export const offersAnyTypesOfHelpNeeded = (
   );
 };
 
-// TODO: tests
 export const meetsFeePreferences = (
   careProvider: CareProviderSearchResult,
   feePreferences: FeePreference[]
@@ -117,13 +101,14 @@ export const meetsFeePreferences = (
     return true;
   }
 
+  // TODO: add a case for don't care / self pay
+
   // check if provider fees match any of preferences
   return feePreferences.some(
     (feePreference) => careProvider.fees[feePreference]
   );
 };
 
-// TODO: tests
 export const meetsAccessibilityNeeds = (
   careProvider: CareProviderSearchResult,
   accessibilityNeeds: AccessibilityOptions[]
@@ -137,7 +122,6 @@ export const meetsAccessibilityNeeds = (
   return accessibilityNeeds.every((need) => careProvider.accessibility[need]);
 };
 
-// TODO: tests
 export const getZipSearchMetadata = (zip: string): ZipSearchMetadata => {
   if (zip.length !== 5) {
     return { isValidZip: false };
