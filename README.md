@@ -1,11 +1,5 @@
 # Colorado Care Directory by the Behavioral Health Administration
 
-## Notice
-
-Right now this repo is just getting started and has been setup based on [github-repo-starter-template](https://github.com/jeffmaher/github-repo-starter-template).
-
-This text should be replaced with documentation relevant to developing and operating this application in the future.
-
 ## Dev Setup
 
 This setups up a dev environment within a container to reduce "it works on my machine" problems and to create a clean, consistent environment (but adds some complexity compared to the non-container setup below). Optionally, it pairs really well with [VSCode's Remote Container extension pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
@@ -80,6 +74,8 @@ We use a standalone script to transform a CSV export into a cleaned JSON file. T
 ```
 npm run processdata
 ```
+
+This happens automatically as part of `npm run build` and `npm run start`, so you don't typically have to run this unless you're debugging the data transformation itself.
 
 ## Using SVGs 
 Using SVGs in React apps is super easy. To make them fully component prop/CSS customizable ensure you do these things:
