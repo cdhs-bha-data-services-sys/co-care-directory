@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Alert, Button, Grid, GridContainer } from "@trussworks/react-uswds";
 import { useTranslation } from "react-i18next";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
-import { LatLngTuple, Map as LeafletMap } from "leaflet";
+import { Map as LeafletMap } from "leaflet";
 import { Marker } from "react-leaflet";
 
 import {
@@ -60,28 +60,29 @@ const Desktop = ({ results }: { results: CareProviderSearchResult[] }) => {
         <Grid tablet={{ col: 7 }} key="desktop-map">
           <div className="border-right border-left border-base-lighter">
             <ResultsMap bounds={getResultBounds(results)} mapRef={mapRef}>
-              {results
-                .filter((result) => !!result.latlng)
-                .map((result) => (
-                  <Marker
-                    position={result.latlng as LatLngTuple}
-                    icon={
-                      selectedResultId === result.id
-                        ? markerActiveIcon
-                        : markerIcon
-                    }
-                    zIndexOffset={
-                      selectedResultId === result.id ? 1000 : undefined
-                    }
-                    key={result.id}
-                    eventHandlers={{
-                      click: () => {
-                        setSelectedResultId(result.id);
-                        document.getElementById(result.id)?.scrollIntoView();
-                      },
-                    }}
-                  />
-                ))}
+              {results.map(
+                (result) =>
+                  result.latlng && (
+                    <Marker
+                      position={result.latlng}
+                      icon={
+                        selectedResultId === result.id
+                          ? markerActiveIcon
+                          : markerIcon
+                      }
+                      zIndexOffset={
+                        selectedResultId === result.id ? 1000 : undefined
+                      }
+                      key={result.id}
+                      eventHandlers={{
+                        click: () => {
+                          setSelectedResultId(result.id);
+                          document.getElementById(result.id)?.scrollIntoView();
+                        },
+                      }}
+                    />
+                  )
+              )}
             </ResultsMap>
           </div>
         </Grid>
@@ -151,27 +152,28 @@ const Mobile = ({ results }: { results: CareProviderSearchResult[] }) => {
               setSelectedResult(undefined);
             }}
           >
-            {results
-              .filter((result) => !!result.latlng)
-              .map((result) => (
-                <Marker
-                  title={result.id}
-                  position={result.latlng as LatLngTuple}
-                  icon={
-                    selectedResult?.id === result.id
-                      ? markerActiveIcon
-                      : markerIcon
-                  }
-                  key={result.id}
-                  eventHandlers={{
-                    click: () => {
-                      setSelectedResult(
-                        results.find((r) => r.id === result.id)
-                      );
-                    },
-                  }}
-                />
-              ))}
+            {results.map(
+              (result) =>
+                result.latlng && (
+                  <Marker
+                    title={result.id}
+                    position={result.latlng}
+                    icon={
+                      selectedResult?.id === result.id
+                        ? markerActiveIcon
+                        : markerIcon
+                    }
+                    key={result.id}
+                    eventHandlers={{
+                      click: () => {
+                        setSelectedResult(
+                          results.find((r) => r.id === result.id)
+                        );
+                      },
+                    }}
+                  />
+                )
+            )}
           </ResultsMap>
         </div>
         {selectedResult ? (

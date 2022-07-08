@@ -1,4 +1,3 @@
-import { LatLngTuple } from "leaflet";
 import {
   AccessibilityOptions,
   ACCESSIBILITY_OPTIONS,
@@ -80,11 +79,11 @@ const VALID_NOT_CO_ZIP = "10001";
 // A zipcode in Denver, CO
 const VALID_CO_ZIP = "80205";
 // A point close to Denver zipcode center, within DEFAULT_RADIUS
-const CLOSE: LatLngTuple = [39.74881, -104.946169];
+const CLOSE = { lat: 39.74881, lng: -104.946169 };
 // A point further away from Denver zipcode center, within DEFAULT_RADIUS
-const FURTHER: LatLngTuple = [39.751298, -105.000184];
+const FURTHER = { lat: 39.751298, lng: -105.000184 };
 // A point further away from Denver zipcode radius, outside DEFAULT_RADIUS
-const FAR: LatLngTuple = [37.938865, -107.812949];
+const FAR = { lat: 37.938865, lng: -107.812949 };
 
 describe("addSearchMetadata", () => {
   test("it adds distance to CareProviders with lat/lng data", () => {

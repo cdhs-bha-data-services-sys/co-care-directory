@@ -1,4 +1,4 @@
-import { latLng, latLngBounds, LatLngExpression, LatLngTuple } from "leaflet";
+import { latLng, latLngBounds, LatLngLiteral } from "leaflet";
 import {
   CareProvider,
   CareProviderSearchResult,
@@ -22,7 +22,7 @@ export const MILE_DISTANCE_OPTIONS = ["5", "10", "50", "100"];
 
 export const addSearchMetadata = (
   careProviders: CareProvider[],
-  searchLocation: LatLngExpression
+  searchLocation: LatLngLiteral
 ): CareProviderSearchResult[] =>
   careProviders.map((result) => ({
     ...result,
@@ -211,8 +211,8 @@ export const EMPTY_SEARCH_FILTERS = {
 export function getResultBounds(searchResults: CareProviderSearchResult[]) {
   return latLngBounds(
     searchResults
-      .filter((result) => !!result.latlng)
-      .map((result) => result.latlng as LatLngTuple)
+      .map((result) => result.latlng)
+      .filter((location): location is LatLngLiteral => !!location)
   );
 }
 

@@ -12,7 +12,7 @@ import {
   SUBSTANCE_USE_SERVICES,
   WeeklyHours,
 } from "../types";
-import { LatLngTuple } from "leaflet";
+import { LatLngLiteral } from "leaflet";
 
 const INPUT_FILE = "../../raw_data/ladders.csv";
 const OUTPUT_FILE = "./ladders_data.json";
@@ -145,11 +145,11 @@ const getHoursOfOperation = (row: InputRow): WeeklyHours => {
   return hoursOfOperation;
 };
 
-const getLatLng = (row: InputRow): LatLngTuple | null => {
+const getLatLng = (row: InputRow): LatLngLiteral | null => {
   const lat = parseFloat(row.lat);
   const lng = parseFloat(row.lon);
   if (!!(lat && lng)) {
-    return [lat, lng];
+    return { lat, lng };
   }
 
   return null;

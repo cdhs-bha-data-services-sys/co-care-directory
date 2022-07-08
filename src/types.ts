@@ -128,7 +128,7 @@ export type CareProvider = {
   accessibility: { [key in AccessibilityOptions]: boolean };
   fees: { [key in Fees]: boolean };
   languages: { [key in Languages]: boolean };
-  latlng: [number, number] | null;
+  latlng: LatLngLiteral | null;
 };
 
 export type CareProviderSearchMetadata = {
