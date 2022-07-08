@@ -11,9 +11,10 @@ import ResultDatum from "./ResultDatum";
 import Hours from "./Hours";
 
 import { CareProvider } from "../../types";
-import { anyAreTrue, getGoogleMapsDirectionsURL } from "../../util";
+import { anyAreTrue } from "../../util";
 import CommaSeparatedList from "../CommaSeparatedList";
 import WebsiteLink from "./WebsiteLink";
+import DirectionsLink from "./DirectionsLink";
 
 type BasicResultDetailProps = {
   headingLevel: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -43,7 +44,7 @@ function BasicResultDetail({ headingLevel, result }: BasicResultDetailProps) {
           <WebsiteLink url={result.website} />
         </ResultDatum>
       )}
-      {result.address?.length && (
+      {!!result.address?.length && (
         <ResultDatum Icon={Location} key="address">
           <Heading className="usa-sr-only">{t(`${T_PREFIX}address`)}</Heading>
           {result.address.map((addr, idx) => (
@@ -51,9 +52,7 @@ function BasicResultDetail({ headingLevel, result }: BasicResultDetailProps) {
               {addr}
             </div>
           ))}
-          <Link target="#" href={getGoogleMapsDirectionsURL(result)}>
-            {t(`common.getDirections`)}
-          </Link>
+          <DirectionsLink careProvider={result} />
         </ResultDatum>
       )}
 

@@ -232,14 +232,6 @@ export function getResultBounds(searchResults: CareProviderSearchResult[]) {
   );
 }
 
-export function getGoogleMapsDirectionsURL(
-  careProvider: CareProviderSearchResult
-) {
-  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-    careProvider.address.join(", ")
-  )}`;
-}
-
 /**
  * Helper function to check if any properties in the given
  * boolean map are 'true'; used to optionally display chunks

@@ -1,14 +1,9 @@
-import {
-  Grid,
-  GridContainer,
-  Link as ExternalLink,
-} from "@trussworks/react-uswds";
+import { Grid, GridContainer } from "@trussworks/react-uswds";
 import { Marker } from "react-leaflet";
 import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { ReactComponent as ArrowLeft } from "../images/arrow-left.svg";
-import { ReactComponent as Directions } from "../images/directions.svg";
 import { ReactComponent as Populations } from "../images/populations.svg";
 import { ReactComponent as Accessibility } from "../images/accessibility.svg";
 
@@ -18,10 +13,10 @@ import CARE_PROVIDER_DATA from "../data/ladders_data.json";
 import { CareProvider, CareProviderSearchResult } from "../types";
 import ResultDatum from "../components/ResultDetail/ResultDatum";
 import Horizontal from "../components/Horizontal";
-import { getGoogleMapsDirectionsURL } from "../util";
 import CommaSeparatedList from "../components/CommaSeparatedList";
 import BulletedList from "../components/BulletedList";
 import { useEffect } from "react";
+import DirectionsLink from "../components/ResultDetail/DirectionsLink";
 
 function ResultDetail() {
   // Ensure user sees the top of the page
@@ -54,17 +49,17 @@ function ResultDetail() {
     return <Navigate replace to="/Whoops" />;
   }
 
-  const googleMapsDirectionsURL = getGoogleMapsDirectionsURL(data);
-
   return (
     <GridContainer className="ResultDetail">
-      <Link
-        className="display-flex flex-align-center"
-        to={`/search${prevSearch ?? ""}`}
-      >
-        <ArrowLeft className="margin-right-1" />
-        {t(`${T_PREFIX}backToSearch`)}
-      </Link>
+      <div className="margin-y-2">
+        <Link
+          className="display-flex flex-align-center"
+          to={`/search${prevSearch ?? ""}`}
+        >
+          <ArrowLeft className="margin-right-1" />
+          {t(`${T_PREFIX}backToSearch`)}
+        </Link>
+      </div>
       <h1>{data.name}</h1>
       <section>
         <h2 className="usa-sr-only">Basic info</h2>
@@ -87,15 +82,9 @@ function ResultDetail() {
                   />
                 </Map>
 
-                <ExternalLink
-                  variant="external"
-                  className="usa-button margin-right-0 margin-y-2  display-flex flex-align-center flex-justify-center"
-                  target="_blank "
-                  href={googleMapsDirectionsURL}
-                >
-                  <Directions className="margin-right-1" />
-                  {t(`common.getDirections`)}
-                </ExternalLink>
+                <div className="margin-y-2">
+                  <DirectionsLink careProvider={data} isButton />
+                </div>
               </div>
             )}
           </Grid>
