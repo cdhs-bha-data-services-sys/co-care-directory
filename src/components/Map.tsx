@@ -11,11 +11,14 @@ import {
 } from "react-leaflet";
 import { CSSProperties, PropsWithChildren, Ref } from "react";
 
-import mapMarkerPng from "../images/map-marker.png";
-import mapMarkerActivePng from "../images/map-marker-active.png";
+import mapMarker from "../images/map-marker.svg";
+import mapMarkerActive from "../images/map-marker-active.svg";
 
-const markerIcon = new Icon({ iconUrl: mapMarkerPng });
-const markerActiveIcon = new Icon({ iconUrl: mapMarkerActivePng });
+const markerIcon = new Icon({ iconUrl: mapMarker, iconSize: [32, 32] });
+const markerActiveIcon = new Icon({
+  iconUrl: mapMarkerActive,
+  iconSize: [32, 32],
+});
 // From https://stackoverflow.com/a/65549235
 
 function MapEvents({
