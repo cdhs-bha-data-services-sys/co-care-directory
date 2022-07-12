@@ -5,17 +5,19 @@ import { toggleItemInList } from "../../../util";
 import { FilterFieldset } from "./Control";
 import FilterCheckbox from "./FilterCheckbox";
 
-type FeesPreferenceInputProps = {
+type FeePreferenceInputProps = {
+  options: FeePreference[];
   filters: SearchFilters;
   setFilters: Dispatch<SetStateAction<SearchFilters>>;
   tPrefix: string;
 };
 
-function FeesPreferenceInput({
+function FeePreferenceInput({
+  options,
   filters,
   setFilters,
   tPrefix,
-}: FeesPreferenceInputProps) {
+}: FeePreferenceInputProps) {
   const { t } = useTranslation();
 
   const setFeePreferenceFilter = (feePreference: FeePreference) => {
@@ -24,12 +26,6 @@ function FeesPreferenceInput({
       feePreferences: toggleItemInList(filters.feePreferences, feePreference),
     });
   };
-
-  const options = [
-    "PrivateInsurance",
-    "Medicaid",
-    "SlidingFeeScale",
-  ] as FeePreference[];
 
   return (
     <FilterFieldset legend={t(`${tPrefix}question`)}>
@@ -47,4 +43,4 @@ function FeesPreferenceInput({
   );
 }
 
-export default FeesPreferenceInput;
+export default FeePreferenceInput;

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { SearchFilters, TypeOfHelp } from "../../../types";
 import AccessibilityInput from "./AccessibilityInput";
 import DistanceInput from "./DistanceInput";
-import FeesPreferenceInput from "./FeesPreferenceInput";
+import FeePreferenceInput from "./FeePreferenceInput";
 import TypeOfHelpInput from "./TypeOfHelpInput";
 
 export const FilterFieldset = styled(Fieldset)`
@@ -109,7 +109,8 @@ function SearchFiltersControl({
           />
         </div>
         <div className="margin-y-3">
-          <FeesPreferenceInput
+          <FeePreferenceInput
+            options={["PrivateInsurance", "Medicaid", "SlidingFeeScale"]}
             filters={filters}
             setFilters={setFilters}
             tPrefix={`${T_PREFIX}filters.feePreference.`}

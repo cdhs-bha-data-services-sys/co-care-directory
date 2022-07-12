@@ -2,8 +2,8 @@ import {
   AccessibilityOptions,
   ACCESSIBILITY_OPTIONS,
   CareProvider,
-  Fees,
-  FEES,
+  FeePreference,
+  FEE_PREFERENCES,
   Languages,
   LANGUAGES,
   MentalHealthServices,
@@ -25,7 +25,7 @@ import {
   DEFAULT_DENSE_RADIUS_MILES,
   offersTypeOfHelp,
   offersAnyTypesOfHelpNeeded,
-  meetsFeePreferences,
+  meetsAnyFeePreference,
   meetsAccessibilityNeeds,
 } from "./util";
 
@@ -61,10 +61,10 @@ const DUMMY_CARE_PROVIDER: CareProvider = {
     map[val] = false;
     return map;
   }, {} as { [key in AccessibilityOptions]: boolean }),
-  fees: FEES.reduce((map, val) => {
+  fees: FEE_PREFERENCES.reduce((map, val) => {
     map[val] = false;
     return map;
-  }, {} as { [key in Fees]: boolean }),
+  }, {} as { [key in FeePreference]: boolean }),
   languages: LANGUAGES.reduce((map, val) => {
     map[val] = false;
     return map;
@@ -301,7 +301,7 @@ describe("offersAnyTypesOfHelpNeeded", () => {
 
 describe("meetsFeePreferences", () => {
   test("true if no fee preferences are specified", () => {
-    expect(meetsFeePreferences(DUMMY_CARE_PROVIDER, [])).toEqual(true);
+    expect(meetsAnyFeePreference(DUMMY_CARE_PROVIDER, [])).toEqual(true);
   });
 
   test("true if some but not all fee preferences are offered", () => {
@@ -309,11 +309,11 @@ describe("meetsFeePreferences", () => {
       ...DUMMY_CARE_PROVIDER,
       fees: { ...DUMMY_CARE_PROVIDER.fees, Medicaid: true },
     };
-    expect(meetsFeePreferences(medicaidProvider, ["SlidingFeeScale"])).toEqual(
-      false
-    );
     expect(
-      meetsFeePreferences(medicaidProvider, ["SlidingFeeScale", "Medicaid"])
+      meetsAnyFeePreference(medicaidProvider, ["SlidingFeeScale"])
+    ).toEqual(false);
+    expect(
+      meetsAnyFeePreference(medicaidProvider, ["SlidingFeeScale", "Medicaid"])
     ).toEqual(true);
   });
 });

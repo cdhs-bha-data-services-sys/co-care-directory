@@ -5,7 +5,7 @@ import {
   ACCESSIBILITY_OPTIONS,
   CareProvider,
   DailyHours,
-  FEES,
+  FEE_PREFERENCES,
   LANGUAGES,
   MENTAL_HEALTH_SERVICES,
   POPULATIONS_SERVED,
@@ -200,7 +200,7 @@ const transformRow = (row: InputRow): CareProvider => {
       ACCESSIBILITY_OPTIONS,
       splitBySemicolons(row["Accessibility"])
     ),
-    fees: getBooleanMap(FEES, splitBySemicolons(row["Fee(s)"])),
+    fees: getBooleanMap(FEE_PREFERENCES, splitBySemicolons(row["Fee(s)"])),
     languages: getBooleanMap(
       LANGUAGES,
       splitBySemicolons(row["Languages Spoken"])

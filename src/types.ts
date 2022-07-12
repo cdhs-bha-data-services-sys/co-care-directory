@@ -80,15 +80,13 @@ export const ACCESSIBILITY_OPTIONS = [
 ] as const;
 export type AccessibilityOptions = typeof ACCESSIBILITY_OPTIONS[number];
 
-export const FEES = [
+export const FEE_PREFERENCES = [
   "Medicaid",
   "PrivateInsurance",
   "SelfPay",
   "SlidingFeeScale",
 ] as const;
-export type Fees = typeof FEES[number];
-// these represent user ability to pay, which is slightly different from Fees
-export type FeePreference = Exclude<Fees, "SelfPay">;
+export type FeePreference = typeof FEE_PREFERENCES[number];
 
 export const LANGUAGES = [
   "English",
@@ -126,7 +124,7 @@ export type CareProvider = {
   populationsServed: { [key in PopulationsServed]: boolean };
   hours: WeeklyHours;
   accessibility: { [key in AccessibilityOptions]: boolean };
-  fees: { [key in Fees]: boolean };
+  fees: { [key in FeePreference]: boolean };
   languages: { [key in Languages]: boolean };
   latlng: LatLngLiteral | null;
 };

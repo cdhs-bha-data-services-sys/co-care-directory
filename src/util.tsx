@@ -92,7 +92,16 @@ export const offersAnyTypesOfHelpNeeded = (
   );
 };
 
-export const meetsFeePreferences = (
+export const meetsFeePreference = (
+  careProvider: CareProviderSearchResult,
+  feePreference: FeePreference
+) => {
+  if (feePreference === "SelfPay") return true;
+
+  return careProvider.fees[feePreference];
+};
+
+export const meetsAnyFeePreference = (
   careProvider: CareProviderSearchResult,
   feePreferences: FeePreference[]
 ): boolean => {
@@ -102,10 +111,9 @@ export const meetsFeePreferences = (
   }
 
   // TODO: add a case for don't care / self pay
-
   // check if provider fees match any of preferences
-  return feePreferences.some(
-    (feePreference) => careProvider.fees[feePreference]
+  return feePreferences.some((feePreference) =>
+    meetsFeePreference(careProvider, feePreference)
   );
 };
 
@@ -167,7 +175,7 @@ export function getMatchingCare(
   const results = addSearchMetadata(careData, zipSearchMetadata.center)
     .filter((result) => isWithinRadius(result, miles))
     .filter((result) => offersAnyTypesOfHelpNeeded(result, typesOfHelp))
-    .filter((result) => meetsFeePreferences(result, feePreferences))
+    .filter((result) => meetsAnyFeePreference(result, feePreferences))
     .filter((result) => meetsAccessibilityNeeds(result, accessibility))
     .sort(compareDistance);
 

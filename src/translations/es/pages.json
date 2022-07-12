@@ -124,6 +124,15 @@
         }
       }
     },
+    "feesPreference": {
+      "question": "¿Cómo prefiere usted, o la persona a la que cuida, pagar los cuidados?",
+      "answers": {
+        "Medicaid": "Medicaid",
+        "PrivateInsurance": "Seguro privado",
+        "SlidingFeeScale": "Opciones de pago según ingresos",
+        "SelfPay": "Pago directo/por cuenta propia"
+      }
+    },
     "location": {
       "question": "¿En dónde estás buscando servicios?"
     },

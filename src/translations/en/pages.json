@@ -124,6 +124,15 @@
         }
       }
     },
+    "feesPreference": {
+      "question": "How do you, or the person you care about, prefer to pay for care?",
+      "answers": {
+        "Medicaid": "Medicaid",
+        "PrivateInsurance": "Private insurance",
+        "SlidingFeeScale": "Sliding fee scale",
+        "SelfPay": "Self Pay"
+      }
+    },
     "location": {
       "question": "Where are you looking for care?"
     },

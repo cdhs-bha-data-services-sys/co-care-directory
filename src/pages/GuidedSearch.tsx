@@ -1,5 +1,4 @@
 import {
-  Alert,
   Button,
   ErrorMessage,
   Form,
@@ -15,6 +14,7 @@ import HelpRecipientInput, {
 import ZipInput from "../components/Home/ZipInput";
 import { FilterFieldset } from "../components/Search/Filters/Control";
 import DistanceInput from "../components/Search/Filters/DistanceInput";
+import FeePreferenceInput from "../components/Search/Filters/FeePreferenceInput";
 import TypeOfHelpInput from "../components/Search/Filters/TypeOfHelpInput";
 import { SearchFilters, TypeOfHelp } from "../types";
 import { EMPTY_SEARCH_FILTERS } from "../util";
@@ -22,6 +22,7 @@ import { EMPTY_SEARCH_FILTERS } from "../util";
 const GUIDED_SEARCH_STEPS = [
   "helpRecipient",
   "typeOfHelp",
+  "feePreference",
   "location",
   "distance",
 ];
@@ -119,6 +120,18 @@ function GuidedSearch() {
                 TypeOfHelp.Unsure,
                 TypeOfHelp.None,
               ]}
+            />
+          ) : currentStep === "feePreference" ? (
+            <FeePreferenceInput
+              options={[
+                "SelfPay",
+                "PrivateInsurance",
+                "Medicaid",
+                "SlidingFeeScale",
+              ]}
+              filters={searchFilters}
+              setFilters={setSearchFilters}
+              tPrefix={`${T_PREFIX}feesPreference.`}
             />
           ) : currentStep === "location" ? (
             <FilterFieldset legend={t(`${T_PREFIX}location.question`)}>
