@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
+import { AnalyticsAction, logEvent } from "../../../analytics";
 import { FeePreference, SearchFilters } from "../../../types";
 import { toggleItemInList } from "../../../util";
 import { FilterFieldset } from "./Control";
@@ -21,6 +22,11 @@ function FeePreferenceInput({
   const { t } = useTranslation();
 
   const setFeePreferenceFilter = (feePreference: FeePreference) => {
+    logEvent(AnalyticsAction.UpdateFilter, {
+      label: "payment options",
+      filter_type: "payment options",
+      filter_value: feePreference,
+    });
     setFilters({
       ...filters,
       feePreferences: toggleItemInList(filters.feePreferences, feePreference),

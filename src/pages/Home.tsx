@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CardGroup, Grid, GridContainer, Link } from "@trussworks/react-uswds";
 import styled from "styled-components";
 
@@ -10,6 +10,7 @@ import { ReactComponent as IMatterLogo } from "../images/logos/imatter.svg";
 import { ReactComponent as BhaLogo } from "../images/logos/bha.svg";
 import ZipCard from "../components/Home/ZipCard";
 import GuidedSearchCard from "../components/Home/GuidedSearchCard";
+import { logPageView } from "../analytics";
 
 const Hero = styled.img`
   max-width: 110%;
@@ -64,6 +65,10 @@ const Or = styled.div`
 function Home() {
   const { t } = useTranslation();
   const T_PREFIX = "pages.home.";
+
+  useEffect(() => {
+    logPageView();
+  }, []);
 
   return (
     <GridContainer>

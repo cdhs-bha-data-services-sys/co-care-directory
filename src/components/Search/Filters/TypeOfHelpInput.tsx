@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
+import { AnalyticsAction, logEvent } from "../../../analytics";
 import { SearchFilters, TypeOfHelp } from "../../../types";
 import { toggleItemInList } from "../../../util";
 import { FilterFieldset } from "./Control";
@@ -21,6 +22,11 @@ function TypeOfHelpInput({
   const { t } = useTranslation();
 
   const setTypeOfHelpFilter = (typeOfHelp: TypeOfHelp) => {
+    logEvent(AnalyticsAction.UpdateFilter, {
+      label: "type of help",
+      filter_type: "type of help",
+      filter_value: typeOfHelp,
+    });
     setFilters({
       ...filters,
       typesOfHelp: toggleItemInList(filters.typesOfHelp, typeOfHelp),

@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
+import { AnalyticsAction, logEvent } from "../../../analytics";
 import {
   AccessibilityOptions,
   ACCESSIBILITY_OPTIONS,
@@ -25,6 +26,11 @@ function AccessibilityInput({
   const setAccessibilityFilter = (
     accessibilityOption: AccessibilityOptions
   ) => {
+    logEvent(AnalyticsAction.UpdateFilter, {
+      label: "accessibility",
+      filter_type: "accessibility",
+      filter_value: accessibilityOption,
+    });
     setFilters({
       ...filters,
       accessibility: toggleItemInList(

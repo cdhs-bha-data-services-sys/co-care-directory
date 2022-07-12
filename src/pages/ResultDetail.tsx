@@ -17,6 +17,7 @@ import CommaSeparatedList from "../components/CommaSeparatedList";
 import BulletedList from "../components/BulletedList";
 import { useEffect } from "react";
 import DirectionsLink from "../components/ResultDetail/DirectionsLink";
+import { logPageView } from "../analytics";
 
 function ResultDetail() {
   // Ensure user sees the top of the page
@@ -24,6 +25,7 @@ function ResultDetail() {
   // they were landing at the same y-coordinate)
   useEffect(() => {
     window.scrollTo(0, 0);
+    logPageView();
   }, []);
 
   const { t } = useTranslation();

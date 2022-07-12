@@ -2,6 +2,7 @@ import { Button, Fieldset, Form } from "@trussworks/react-uswds";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { AnalyticsAction, logEvent } from "../../../analytics";
 import { SearchFilters, TypeOfHelp } from "../../../types";
 import AccessibilityInput from "./AccessibilityInput";
 import DistanceInput from "./DistanceInput";
@@ -58,6 +59,7 @@ function SearchFiltersControl({
     <Form
       onSubmit={(e) => {
         e.preventDefault();
+        logEvent(AnalyticsAction.ApplyFilter, { label: "Apply button" });
         onApplyFilters(filters);
         setIsExpanded(false);
       }}
@@ -79,6 +81,9 @@ function SearchFiltersControl({
             <Button
               type="button"
               onClick={() => {
+                logEvent(AnalyticsAction.ApplyFilter, {
+                  label: "Clear filters button",
+                });
                 const cleared = clearOptionalFilters(filters);
                 setFilters(cleared);
                 onApplyFilters(cleared);

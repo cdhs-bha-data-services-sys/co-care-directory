@@ -26,6 +26,7 @@ import ResultsMap from "../components/Search/ResultsMap";
 import MobileViewToggle from "../components/Search/MobileViewToggle";
 import { markerIcon, markerActiveIcon } from "../components/Map";
 import { ReactComponent as Close } from "../images/close.svg";
+import { AnalyticsAction, logEvent, logPageView } from "../analytics";
 
 /**
  * The side-by-side list + map view for desktop or tablet,
@@ -76,6 +77,7 @@ const Desktop = ({ results }: { results: CareProviderSearchResult[] }) => {
                       key={result.id}
                       eventHandlers={{
                         click: () => {
+                          logEvent(AnalyticsAction.ClickMapMarker, {});
                           setSelectedResultId(result.id);
                           document.getElementById(result.id)?.scrollIntoView();
                         },
@@ -120,9 +122,15 @@ const Mobile = ({ results }: { results: CareProviderSearchResult[] }) => {
   // to ensure it displays correctly despite having been `display: none`
   // https://stackoverflow.com/a/36257493
   const onShowMap = () => {
+    logEvent(AnalyticsAction.ToggleResultView, { label: "map" });
     setIsListView(false);
     mapRef.current?.invalidateSize();
     rerenderMap();
+  };
+
+  const onShowList = () => {
+    logEvent(AnalyticsAction.ToggleResultView, { label: "list" });
+    setIsListView(true);
   };
 
   const [selectedResult, setSelectedResult] =
@@ -135,7 +143,7 @@ const Mobile = ({ results }: { results: CareProviderSearchResult[] }) => {
       <MobileViewToggle
         isListView={isListView}
         onShowMap={onShowMap}
-        onShowList={() => setIsListView(true)}
+        onShowList={onShowList}
       />
       <div className={isListView ? "" : "display-none"} key="mobile-list">
         <ResultsList results={results} isMobile />
@@ -245,6 +253,7 @@ function Search() {
       });
     } else {
       performSearch(searchFilters);
+      logPageView();
     }
   }, []);
 

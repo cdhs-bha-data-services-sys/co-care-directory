@@ -1,6 +1,7 @@
 import { Radio } from "@trussworks/react-uswds";
 import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
+import { AnalyticsAction, logEvent } from "../../../analytics";
 import { SearchFilters } from "../../../types";
 import { MILE_DISTANCE_OPTIONS } from "../../../util";
 import { FilterFieldset } from "./Control";
@@ -15,6 +16,11 @@ function DistanceInput({ filters, setFilters, tPrefix }: DistanceInputProps) {
   const { t } = useTranslation();
 
   const setDistanceFilter = (miles: string) => {
+    logEvent(AnalyticsAction.UpdateFilter, {
+      label: "distance",
+      filter_type: "distance",
+      filter_value: miles,
+    });
     setFilters({ ...filters, miles });
   };
 

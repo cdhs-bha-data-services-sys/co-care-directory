@@ -1,8 +1,14 @@
 import { GridContainer, Grid } from "@trussworks/react-uswds";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { logPageView } from "../analytics";
 
 function Whoops() {
+  useEffect(() => {
+    logPageView();
+  }, []);
+
   const { t } = useTranslation();
   const T_PREFIX = "pages.whoops.";
   return (

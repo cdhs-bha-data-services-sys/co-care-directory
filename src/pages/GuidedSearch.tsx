@@ -5,9 +5,10 @@ import {
   GridContainer,
   StepIndicatorStep,
 } from "@trussworks/react-uswds";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { createSearchParams, useNavigate } from "react-router-dom";
+import { AnalyticsAction, logEvent, logPageView } from "../analytics";
 import HelpRecipientInput, {
   HelpRecipient,
 } from "../components/GuidedSearch/HelpRecipientInput";
@@ -35,6 +36,10 @@ const getStepStatus = (thisIdx: number, currentStepIdx: number) => {
 
 // TODO: validate zip
 function GuidedSearch() {
+  useEffect(() => {
+    logPageView();
+  }, []);
+
   const { t } = useTranslation();
   const T_PREFIX = "pages.guidedSearch.";
 
@@ -57,6 +62,10 @@ function GuidedSearch() {
   // search results with supplied filters if all steps completed
   const navigate = useNavigate();
   const goToNextStep = () => {
+    logEvent(AnalyticsAction.CompleteGuidedSearchQuestion, {
+      step: currentStepIdx,
+      label: GUIDED_SEARCH_STEPS[currentStepIdx],
+    });
     if (currentStepIdx < GUIDED_SEARCH_STEPS.length - 1) {
       setCurrentStepIdx((idx) => idx + 1);
     } else {
