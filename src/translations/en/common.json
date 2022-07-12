@@ -9,5 +9,15 @@
   },
   "zipCode": "Zip code",
   "zipCodeError": "Please enter a valid Colorado zip code",
-  "feedbackUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfXb19-4PgIamwjgg2J0vCp8nvCXNCYvz3v2tDtQFF0uNCTUA/viewform"
+  "feedbackUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfXb19-4PgIamwjgg2J0vCp8nvCXNCYvz3v2tDtQFF0uNCTUA/viewform",
+  "daysOfWeekShort": {
+    "monday": "Mon",
+    "tuesday": "Tue",
+    "wednesday": "Wed",
+    "thursday": "Thu",
+    "friday": "Fri",
+    "saturday": "Sat",
+    "sunday": "Sun"
+  },
+  "closed": "Closed"
 }

@@ -1,42 +1,92 @@
 import { TFunction, useTranslation } from "react-i18next";
 import { DailyHours, WeeklyHours } from "../../types";
 
-const T_PREFIX = "components.resultDetail.";
+const DAYS_IN_ORDER = [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+  "sunday",
+];
 
 const formatDailyHours = (hours: DailyHours, t: TFunction) => {
-  return hours.open ? `${hours.start} - ${hours.end}` : t(`${T_PREFIX}closed`);
+  return hours.open ? `${hours.start}-${hours.end}` : t("common.closed");
+};
+
+type CondensedHoursDatum = {
+  startDay: string;
+  endDay: string | null;
+  hours: DailyHours;
+};
+
+const areHoursEqual = (a: DailyHours, b: DailyHours) => {
+  if (!a.open && !b.open) {
+    return true;
+  } else if (a.open && b.open && a.start === b.start && a.end === b.end) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+// TODO: move to utils, write tests
+// when consecutive days share the same hours, lump them together for display
+const getCondensedHoursData = (hours: WeeklyHours) => {
+  if (!hours) {
+    return null;
+  }
+  const condensedHoursData: CondensedHoursDatum[] = [];
+  // loop thru each day
+  for (const currentDay of DAYS_IN_ORDER) {
+    const currentDayHours = hours[currentDay as keyof WeeklyHours];
+    const previousDatum = condensedHoursData.length
+      ? condensedHoursData[condensedHoursData.length - 1]
+      : null;
+    if (previousDatum && areHoursEqual(currentDayHours, previousDatum.hours)) {
+      // if hours are the same as the previous day, lump days together into one row
+      condensedHoursData.pop();
+      condensedHoursData.push({ ...previousDatum, endDay: currentDay });
+    } else {
+      // otherwise add a separate row
+      condensedHoursData.push({
+        startDay: currentDay,
+        endDay: null,
+        hours: currentDayHours,
+      });
+    }
+  }
+  return condensedHoursData;
 };
 
 function Hours({ hours }: { hours: WeeklyHours }) {
   const { t } = useTranslation();
-  if (!hours) {
+
+  const rows = getCondensedHoursData(hours);
+  if (!rows) {
     return (
-      <div className="margin-bottom-1">{t(`${T_PREFIX}contactForInfo`)}</div>
+      <div className="margin-bottom-1">
+        {t("components.resultDetail.contactForInfo")}
+      </div>
     );
   }
   return (
     <>
-      <div className="margin-bottom-1">
-        {t(`${T_PREFIX}monday`)} {": "} {formatDailyHours(hours.monday, t)}
-      </div>
-      <div className="margin-bottom-1">
-        {t(`${T_PREFIX}tuesday`)}: {formatDailyHours(hours.tuesday, t)}
-      </div>
-      <div className="margin-bottom-1">
-        {t(`${T_PREFIX}wednesday`)}: {formatDailyHours(hours.wednesday, t)}
-      </div>
-      <div className="margin-bottom-1">
-        {t(`${T_PREFIX}thursday`)}: {formatDailyHours(hours.thursday, t)}
-      </div>
-      <div className="margin-bottom-1">
-        {t(`${T_PREFIX}friday`)}: {formatDailyHours(hours.friday, t)}
-      </div>
-      <div className="margin-bottom-1">
-        {t(`${T_PREFIX}saturday`)}: {formatDailyHours(hours.saturday, t)}
-      </div>
-      <div className="margin-bottom-1">
-        {t(`${T_PREFIX}sunday`)}: {formatDailyHours(hours.sunday, t)}
-      </div>
+      {rows.map((row) => {
+        const startDayStr = t(`common.daysOfWeekShort.${row.startDay}`);
+        const endDayStr =
+          row.endDay && t(`common.daysOfWeekShort.${row.endDay}`);
+        const label = endDayStr
+          ? `${startDayStr}-${endDayStr}: `
+          : `${startDayStr}: `;
+        return (
+          <div className="margin-bottom-1" key={row.startDay}>
+            {label}
+            {formatDailyHours(row.hours, t)}
+          </div>
+        );
+      })}
     </>
   );
 }

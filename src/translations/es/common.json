@@ -9,5 +9,15 @@
   },
   "zipCode": "Código postal",
   "zipCodeError": "Por favor ingresa un código postal válido de Colorado",
-  "feedbackUrl": "https://docs.google.com/forms/d/e/1FAIpQLSdoan0__hPL8XKHjhbghd8nWHYoOu0qfo56tgHGHMJuVNA9Sg/viewform"
+  "feedbackUrl": "https://docs.google.com/forms/d/e/1FAIpQLSdoan0__hPL8XKHjhbghd8nWHYoOu0qfo56tgHGHMJuVNA9Sg/viewform",
+  "daysOfWeekShort": {
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miercoles",
+    "thursday": "Jueves",
+    "friday": "Viernes",
+    "saturday": "Sábado",
+    "sunday": "Domingo"
+  },
+  "closed": "Cerrada"
 }
