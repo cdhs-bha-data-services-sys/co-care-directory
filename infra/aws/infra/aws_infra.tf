@@ -1,7 +1,7 @@
 # **************************************
 # Deploys app to AWS using Terraform
 #
-# See `/README.md` for instructions.
+# See `/README.md` for instructions. Requires `../state/aws_state.tf` to be run first
 #
 # File contains:
 # - Variables
@@ -38,6 +38,12 @@ terraform {
             source  = "hashicorp/aws"
             version = "4.20.1"
         }
+    }
+
+    # terraform init -backend-config="bucket=${TF_VAR_bucket_name}-terraform-state" -backend-config="dynamodb_table=${TF_VAR_bucket_name}-terraform-state"
+    backend "s3" {
+        key = "terraform.tfstate"      
+        region = "us-east-1"
     }
 }
 

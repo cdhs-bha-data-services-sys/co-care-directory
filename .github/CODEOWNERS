@@ -11,7 +11,7 @@
 /Dockerfile         @bloom-works/co-bha-care-directory-devs
 /*.json             @bloom-works/co-bha-care-directory-devs
 /*.tf               @bloom-works/co-bha-care-directory-devs
-/deploy/            @bloom-works/co-bha-care-directory-devs
+/infra/            @bloom-works/co-bha-care-directory-devs
 docker*             @bloom-works/co-bha-care-directory-devs
 /*.yml              @bloom-works/co-bha-care-directory-devs
 /*.json             @bloom-works/co-bha-care-directory-devs

@@ -98,6 +98,8 @@ If you want to attach domains during the deployment (i.e. specified as an enviro
 
 ### First time
 
+The first time you ever deploy the site to an AWS Account from any computer, run this:
+
 1. Setup a new AWS Account or login to an existing one that you have admin rights on
 1. [Create a user](https://us-east-1.console.aws.amazon.com/iamv2/home#/users)
    1. User name: `terraform`
@@ -113,17 +115,36 @@ If you want to attach domains during the deployment (i.e. specified as an enviro
    1. Copy the user ID, access key ID, and secret access key
    1. Close
 
-### Deploy
-
+Next, we need to create storage for the Terraform state.
 
 1. Launch a terminal in the dev container from the root of the code base: `docker run -it -v $PWD:/app --rm coloradodigitalservice/co-care-directory bash` (TODO: Remove directory mapping after state is stored centrally)
+1. Navigate to: `cd infra/aws/state`
+1. Set `export TF_VAR_bucket_name="<S3 bucket name>"` with a [valid name](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html) of the S3 bucket where built app files will be stored. This must be unique across all of AWS.
+1. (optional) Set `export TF_VAR_domains='["domain1.com","domain2.org"]'` with the domains, with primary domain first
+   - If no domains specified, it'll just use a CloudFront generated domain
+1. Set `export AWS_ACCESS_KEY_ID="<your AWS user's access key ID>"` 
+1. Set `export AWS_SECRET_ACCESS_KEY="<your AWS secret access key>"`  
+1. Setup Terraform: `terraform init`
+1. Build the infrastructure:  `terraform apply` and then type `yes`
+1. Save a backup of the `terraform.state` file
+   - This is a state file containing only the S3 storage for the deployment's state file and Dynamo DB table that locks Terraform runs to one user at a time. There is no central backup, so put it somewhere safe even though you'll probably never need it again.
+   - If you _do_ lose this state file, you can manually modify/remove the S3 bucket and DynamoDB table both named `${TF_VAR_bucket_name}-terraform-state`
+
+
+### Manual deployment
+
+You can start here if the First Time instructions have been run on the AWS Account from any computer at anytime before this.
+
+1. Launch a terminal in the dev container from the root of the code base: `docker run -it -v $PWD:/app --rm coloradodigitalservice/co-care-directory bash` (TODO: Remove directory mapping after state is stored centrally)
+1. Navigate to: `cd infra/aws/infra`
 1. Set `export TF_VAR_bucket_name="<S3 bucket name>"` with a [valid name](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html) of the S3 bucket where built app files will be stored. This must be unique across all of AWS.
 1. (optional) Set `export TF_VAR_domains='["domain1.com","domain2.org"]'` with the domains, with primary domain first
    - If no domains specified, it'll just use a CloudFront generated domain
 1. Set `export AWS_ACCESS_KEY_ID="<your AWS user's access key ID>"` 
 1. Set `export AWS_SECRET_ACCESS_KEY="<your AWS secret access key>"` 
-1. Setup Terraform: `terraform init`
+1. Setup Terraform: `terraform init -backend-config="bucket=${TF_VAR_bucket_name}-terraform-state" -backend-config="dynamodb_table=${TF_VAR_bucket_name}-terraform-state"`
 1. Build the infrastructure:  `terraform apply` and then type `yes`
+1. Navigate back to the base of the repository: `cd ../../..`
 1. Build the apps: `npm run build`
 1. Deploy the app's files: `aws s3 sync build/. s3://$TF_VAR_bucket_name --delete`
 1. Get the URL: `terraform output` and then navigate to one of the URLs in your browser
