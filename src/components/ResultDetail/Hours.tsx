@@ -1,15 +1,5 @@
 import { TFunction, useTranslation } from "react-i18next";
-import { DailyHours, WeeklyHours } from "../../types";
-
-const DAYS_IN_ORDER = [
-  "monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
-  "sunday",
-];
+import { DailyHours, DAYS_OF_THE_WEEK, WeeklyHours } from "../../types";
 
 const formatDailyHours = (hours: DailyHours, t: TFunction) => {
   return hours.open ? `${hours.start}-${hours.end}` : t("common.closed");
@@ -39,7 +29,7 @@ const getCondensedHoursData = (hours: WeeklyHours) => {
   }
   const condensedHoursData: CondensedHoursDatum[] = [];
   // loop thru each day
-  for (const currentDay of DAYS_IN_ORDER) {
+  for (const currentDay of DAYS_OF_THE_WEEK) {
     const currentDayHours = hours[currentDay as keyof WeeklyHours];
     const previousDatum = condensedHoursData.length
       ? condensedHoursData[condensedHoursData.length - 1]

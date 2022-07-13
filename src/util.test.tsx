@@ -2,6 +2,8 @@ import {
   AccessibilityOptions,
   ACCESSIBILITY_OPTIONS,
   CareProvider,
+  DailyHours,
+  DayOfWeek,
   FeePreference,
   FEE_PREFERENCES,
   Languages,
@@ -27,6 +29,7 @@ import {
   offersAnyTypesOfHelpNeeded,
   meetsAnyFeePreference,
   meetsAccessibilityNeeds,
+  isOpenOnSelectedDays,
 } from "./util";
 
 const DUMMY_CARE_PROVIDER: CareProvider = {
@@ -349,6 +352,40 @@ describe("meetsAccessibilityNeeds", () => {
         "Wheelchair",
         "Deaf/HardofHearing",
       ])
+    ).toEqual(true);
+  });
+});
+
+describe("isOpenOnSelectedDays", () => {
+  test("true if no days are specified", () => {
+    expect(isOpenOnSelectedDays(DUMMY_CARE_PROVIDER, [])).toEqual(true);
+  });
+
+  test("false if days are specified but provider does not have hours", () => {
+    expect(
+      isOpenOnSelectedDays(DUMMY_CARE_PROVIDER, [DayOfWeek.Sunday])
+    ).toEqual(false);
+  });
+
+  test("true if open on some but not all days", () => {
+    const closed: DailyHours = { open: false };
+    const satProvider = {
+      ...DUMMY_CARE_PROVIDER,
+      hours: {
+        monday: closed,
+        tuesday: closed,
+        wednesday: closed,
+        thursday: closed,
+        friday: closed,
+        saturday: { open: true, start: "7:00am", end: "7:00pm" },
+        sunday: closed,
+      },
+    };
+    expect(isOpenOnSelectedDays(satProvider, [DayOfWeek.Sunday])).toEqual(
+      false
+    );
+    expect(
+      isOpenOnSelectedDays(satProvider, [DayOfWeek.Sunday, DayOfWeek.Saturday])
     ).toEqual(true);
   });
 });

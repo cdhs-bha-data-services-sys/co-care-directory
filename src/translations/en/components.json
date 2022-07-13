@@ -43,6 +43,9 @@
           "VisuallyImpaired": "Support for a person with a visual impairment or who is blind",
           "Wheelchair": "Support for a person who uses a wheelchair"
         }
+      },
+      "hours": {
+        "question": "Days of operation"
       }
     }
   },

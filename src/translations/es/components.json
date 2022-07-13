@@ -43,6 +43,9 @@
           "VisuallyImpaired": "Apoyo para personas con un impedimento visual o ceguera",
           "Wheelchair": "Apoyo para personas que usa una silla de ruedas"
         }
+      },
+      "hours": {
+        "question": "Días de operación"
       }
     }
   },

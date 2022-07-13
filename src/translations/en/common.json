@@ -10,6 +10,15 @@
   "zipCode": "Zip code",
   "zipCodeError": "Please enter a valid Colorado zip code",
   "feedbackUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfXb19-4PgIamwjgg2J0vCp8nvCXNCYvz3v2tDtQFF0uNCTUA/viewform",
+  "daysOfWeek": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
   "daysOfWeekShort": {
     "monday": "Mon",
     "tuesday": "Tue",

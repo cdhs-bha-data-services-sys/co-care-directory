@@ -8,15 +8,18 @@ export type DailyHours =
     }
   | { open: false };
 
-export type WeeklyHours = {
-  sunday: DailyHours;
-  monday: DailyHours;
-  tuesday: DailyHours;
-  wednesday: DailyHours;
-  thursday: DailyHours;
-  friday: DailyHours;
-  saturday: DailyHours;
-} | null;
+export enum DayOfWeek {
+  Monday = "monday",
+  Tuesday = "tuesday",
+  Wednesday = "wednesday",
+  Thursday = "thursday",
+  Friday = "friday",
+  Saturday = "saturday",
+  Sunday = "sunday",
+}
+export const DAYS_OF_THE_WEEK = Object.values(DayOfWeek);
+
+export type WeeklyHours = { [K in DayOfWeek]: DailyHours } | null;
 
 export const SUBSTANCE_USE_SERVICES = [
   "ClinicallyManagedHighIntensityResidentialServices",
@@ -162,6 +165,7 @@ export type SearchFilters = {
   typesOfHelp: TypeOfHelp[];
   feePreferences: FeePreference[];
   accessibility: AccessibilityOptions[];
+  hours: DayOfWeek[];
 };
 
 export enum TypeOfHelp {

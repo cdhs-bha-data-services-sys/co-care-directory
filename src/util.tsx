@@ -9,6 +9,7 @@ import {
   FeePreference,
   ZipSearchMetadata,
   AccessibilityOptions,
+  DayOfWeek,
 } from "./types";
 import coloradoZipData from "./data/colorado_zip_data.json";
 
@@ -130,6 +131,18 @@ export const meetsAccessibilityNeeds = (
   return accessibilityNeeds.every((need) => careProvider.accessibility[need]);
 };
 
+export const isOpenOnSelectedDays = (
+  careProvider: CareProviderSearchResult,
+  days: DayOfWeek[]
+): boolean => {
+  // if no days specified, don't apply any filter
+  if (!days.length) {
+    return true;
+  }
+
+  return days.some((day) => careProvider.hours && careProvider.hours[day].open);
+};
+
 export const getZipSearchMetadata = (zip: string): ZipSearchMetadata => {
   if (zip.length !== 5) {
     return { isValidZip: false };
@@ -160,6 +173,7 @@ export function getMatchingCare(
     typesOfHelp,
     feePreferences,
     accessibility,
+    hours,
   } = filters;
 
   const zipSearchMetadata = getZipSearchMetadata(zip);
@@ -177,6 +191,7 @@ export function getMatchingCare(
     .filter((result) => offersAnyTypesOfHelpNeeded(result, typesOfHelp))
     .filter((result) => meetsAnyFeePreference(result, feePreferences))
     .filter((result) => meetsAccessibilityNeeds(result, accessibility))
+    .filter((result) => isOpenOnSelectedDays(result, hours))
     .sort(compareDistance);
 
   return { results };
@@ -199,6 +214,7 @@ export function getFiltersFromSearchParams(
     accessibility: searchParams.getAll(
       "accessibility"
     ) as AccessibilityOptions[],
+    hours: searchParams.getAll("hours") as DayOfWeek[],
   };
 }
 
@@ -208,6 +224,7 @@ export const EMPTY_SEARCH_FILTERS = {
   typesOfHelp: [],
   feePreferences: [],
   accessibility: [],
+  hours: [],
 };
 
 /**
