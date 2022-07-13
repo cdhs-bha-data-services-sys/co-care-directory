@@ -90,7 +90,7 @@ Using SVGs in React apps is super easy. To make them fully component prop/CSS cu
 Your local environment should have Docker installed. If you haven't built the Docker container yet, build it while at the root of the code base:
 
 ```
-docker build -t coloradodigitalservice/co-care-directory-deploy .
+docker build -t coloradodigitalservice/co-care-directory .
 ```
 
 If you want to attach domains during the deployment (i.e. specified as an environment variable), then those domains should live inside the target AWS account's Route53 Registered Domains. Otherwise, you can run without domains specified and manually setup your domains to point to a CloudFront generated URL.
