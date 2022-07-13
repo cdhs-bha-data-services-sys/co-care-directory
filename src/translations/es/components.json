@@ -57,7 +57,8 @@
       "PrivateInsurance": "Seguro privado",
       "SlidingFeeScale": "Opciones de pago según ingresos",
       "SelfPay": "Pago directo/por cuenta propia"
-    }
+    },
+    "share": "Compartir este proveedor"
   },
   "home": {
     "zipPrompt": "Ingresa tu código postal para encontrar atención cercana a tu área.",

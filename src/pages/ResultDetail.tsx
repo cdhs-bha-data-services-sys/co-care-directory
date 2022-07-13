@@ -17,6 +17,7 @@ import CommaSeparatedList from "../components/CommaSeparatedList";
 import BulletedList from "../components/BulletedList";
 import { useEffect } from "react";
 import DirectionsLink from "../components/ResultDetail/DirectionsLink";
+import ShareButton from "../components/ShareButton";
 import { logPageView } from "../analytics";
 
 function ResultDetail() {
@@ -62,7 +63,11 @@ function ResultDetail() {
           {t(`${T_PREFIX}backToSearch`)}
         </Link>
       </div>
-      <h1>{data.name}</h1>
+      <Grid row className="flex-justify margin-bottom-2">
+        <h1>{data.name}</h1>
+        <ShareButton text={t(`${T_PREFIX}share`)} />
+      </Grid>
+
       <section>
         <h2 className="usa-sr-only">Basic info</h2>
         <Grid row>

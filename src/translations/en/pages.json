@@ -25,7 +25,8 @@
     "noResultsExpandRadius": "There are no results within {{miles}} miles. Search a wider distance to see more results.",
     "noResultsGeneric": "There are no results within {{miles}} miles. Adjust the filters to expand your search.",
     "fullDetailButton": "Full detail about this location",
-    "mapHelper": "Tap a marker to pull up information for that location."
+    "mapHelper": "Tap a marker to pull up information for that location.",
+    "share": "Share these results"
   },
   "resultDetail": {
     "backToSearch": "Back to search",

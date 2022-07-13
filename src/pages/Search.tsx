@@ -26,8 +26,10 @@ import ResultsMap from "../components/Search/ResultsMap";
 import MobileViewToggle from "../components/Search/MobileViewToggle";
 import { markerIcon, markerActiveIcon } from "../components/Map";
 import { ReactComponent as Close } from "../images/close.svg";
+import ShareButton from "../components/ShareButton";
 import { AnalyticsAction, logEvent, logPageView } from "../analytics";
 
+const T_PREFIX = "pages.share.";
 /**
  * The side-by-side list + map view for desktop or tablet,
  * which is visually hidden in mobile via CSS, but should still
@@ -200,7 +202,7 @@ const Mobile = ({ results }: { results: CareProviderSearchResult[] }) => {
             </Grid>
             <ResultCard data={selectedResult}>
               <Link className="usa-button" to={`/result/${selectedResult.id}`}>
-                {t("pages.search.fullDetailButton")}
+                {t(`${T_PREFIX}fullDetailButton`)}
               </Link>
             </ResultCard>
           </div>
@@ -211,7 +213,7 @@ const Mobile = ({ results }: { results: CareProviderSearchResult[] }) => {
             headingLevel=""
             className="radius-lg margin-y-2"
           >
-            {t("pages.search.mapHelper")}
+            {t(`${T_PREFIX}mapHelper`)}
           </Alert>
         )}
       </div>
@@ -261,12 +263,15 @@ function Search() {
     <div className="Search">
       {searchResult && (
         <GridContainer>
-          <h1 className="margin-y-2">
-            {t("pages.search.resultCount", {
-              count: searchResult.results.length,
-              zip: searchFilters.zip,
-            })}
-          </h1>
+          <Grid row className="flex-justify">
+            <h1 className="margin-y-2">
+              {t(`${T_PREFIX}resultCount`, {
+                count: searchResult.results.length,
+                zip: searchFilters.zip,
+              })}
+            </h1>
+            <ShareButton text={t(`${T_PREFIX}share`)} />
+          </Grid>
           <div className="margin-y-2">
             <Control
               currentFilters={searchFilters}
@@ -286,8 +291,8 @@ function Search() {
             ) : (
               <p>
                 {isCurrentlyAtWidestRadius
-                  ? t("pages.search.noResultsGeneric")
-                  : t("pages.search.noResultsExpandRadius", {
+                  ? t(`${T_PREFIX}noResultsGeneric`)
+                  : t(`${T_PREFIX}noResultsExpandRadius`, {
                       miles: searchFilters.miles,
                     })}
               </p>
