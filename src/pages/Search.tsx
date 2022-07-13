@@ -29,7 +29,7 @@ import { ReactComponent as Close } from "../images/close.svg";
 import ShareButton from "../components/ShareButton";
 import { AnalyticsAction, logEvent, logPageView } from "../analytics";
 
-const T_PREFIX = "pages.share.";
+const T_PREFIX = "pages.search.";
 /**
  * The side-by-side list + map view for desktop or tablet,
  * which is visually hidden in mobile via CSS, but should still
@@ -263,16 +263,18 @@ function Search() {
     <div className="Search">
       {searchResult && (
         <GridContainer>
-          <Grid row className="flex-justify">
-            <h1 className="margin-y-2">
-              {t(`${T_PREFIX}resultCount`, {
-                count: searchResult.results.length,
-                zip: searchFilters.zip,
-              })}
-            </h1>
-            <ShareButton text={t(`${T_PREFIX}share`)} />
-          </Grid>
           <div className="margin-y-2">
+            <Grid row className="flex-justify">
+              <h1 className="margin-y-0">
+                {t(`${T_PREFIX}resultCount`, {
+                  count: searchResult.results.length,
+                  zip: searchFilters.zip,
+                })}
+              </h1>
+              <ShareButton text={t(`${T_PREFIX}share`)} />
+            </Grid>
+          </div>
+          <div className="margin-bottom-2">
             <Control
               currentFilters={searchFilters}
               onApplyFilters={(filters) => {

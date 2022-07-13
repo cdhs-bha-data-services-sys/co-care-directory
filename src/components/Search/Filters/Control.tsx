@@ -56,7 +56,7 @@ function SearchFiltersControl({
   }, [isExpanded]);
 
   return (
-    <Form
+    <form
       onSubmit={(e) => {
         e.preventDefault();
         logEvent(AnalyticsAction.ApplyFilter, { label: "Apply button" });
@@ -137,7 +137,7 @@ function SearchFiltersControl({
           </Button>
         </div>
       </div>
-    </Form>
+    </form>
   );
 }
 
