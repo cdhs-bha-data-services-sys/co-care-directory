@@ -45,3 +45,7 @@ jobs:
       # CODE QUALITY
       - name: Run code quality scans
         run: docker-compose -f docker-compose.yml -f ci/docker-compose.ci.yml run app sh ci/code_quality.sh
+
+      # Testing publish script
+      - name: Build and publish artifacts
+        run: docker run -v "$PWD:/app" -e TF_VAR_bucket_name -e TF_VAR_domains -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY ${{ github.repository }}:${{ github.head_ref }} sh ci/publish_build.sh $(git tag -l --sort "v:refname" "*.*.*" | tail -1)
