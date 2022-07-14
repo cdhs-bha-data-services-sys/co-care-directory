@@ -21,7 +21,12 @@ const onClick = () => {
 
 function ShareButton({ text }: ShareButtonProps) {
   return (
-    <Button type="button" unstyled onClick={onClick}>
+    <Button
+      type="button"
+      unstyled
+      onClick={onClick}
+      className="display-flex align-items-center"
+    >
       {text}
       <Share className="margin-left-1" />
     </Button>

@@ -61,8 +61,7 @@
       "PrivateInsurance": "Private insurance",
       "SelfPay": "Self pay",
       "SlidingFeeScale": "Sliding fee scale"
-    },
-    "share": "Share this provider"
+    }
   },
   "home": {
     "zipPrompt": "Enter your zip code to find care near your area",
