@@ -1,5 +1,5 @@
-import { Button, Fieldset, Form } from "@trussworks/react-uswds";
-import { useEffect, useState } from "react";
+import { Button, Fieldset } from "@trussworks/react-uswds";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { AnalyticsAction, logEvent } from "../../../analytics";
@@ -49,12 +49,10 @@ function SearchFiltersControl({
 
   const countSelected = countOptionalFiltersSelected(currentFilters);
 
-  // if filter is closed, reset any filters that haven't been applied
-  useEffect(() => {
-    if (!isExpanded) {
-      setFilters(currentFilters);
-    }
-  }, [isExpanded]);
+  const closeFiltersWithoutApplyingUpdates = () => {
+    setIsExpanded(false);
+    setFilters(currentFilters);
+  };
 
   return (
     <form
@@ -68,7 +66,13 @@ function SearchFiltersControl({
       <Button
         type="button"
         className="radius-pill"
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={() => {
+          if (isExpanded) {
+            closeFiltersWithoutApplyingUpdates();
+          } else {
+            setIsExpanded(true);
+          }
+        }}
         outline={countSelected === 0}
         base={countSelected !== 0}
       >
@@ -140,7 +144,11 @@ function SearchFiltersControl({
           {t(`${T_PREFIX}viewResultsButton`)}
         </Button>
         <div className="padding-top-2">
-          <Button type="button" onClick={() => setIsExpanded(false)} unstyled>
+          <Button
+            type="button"
+            onClick={() => closeFiltersWithoutApplyingUpdates()}
+            unstyled
+          >
             {t("common.cancel")}
           </Button>
         </div>

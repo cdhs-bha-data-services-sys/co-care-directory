@@ -6,13 +6,13 @@ import { toggleItemInList } from "../../../util";
 import { FilterFieldset } from "./Control";
 import FilterCheckbox from "./FilterCheckbox";
 
-type HoursInput = {
+type HoursInputProps = {
   filters: SearchFilters;
   setFilters: Dispatch<SetStateAction<SearchFilters>>;
   tPrefix: string;
 };
 
-function HoursInput({ filters, setFilters, tPrefix }: HoursInput) {
+function HoursInput({ filters, setFilters, tPrefix }: HoursInputProps) {
   const { t } = useTranslation();
 
   const setHoursFilter = (day: DayOfWeek) => {
