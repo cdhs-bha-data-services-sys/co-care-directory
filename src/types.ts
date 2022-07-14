@@ -110,7 +110,6 @@ export type Languages = typeof LANGUAGES[number];
 export type CareProvider = {
   id: string;
   name: string;
-  programName: string;
   phone: string;
   hideAddress: boolean;
   address: string[];

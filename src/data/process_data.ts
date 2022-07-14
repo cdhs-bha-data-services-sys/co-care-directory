@@ -18,76 +18,32 @@ const INPUT_FILE = "../../raw_data/ladders.csv";
 const OUTPUT_FILE = "./ladders_data.json";
 
 type InputRow = {
-  "Parent Account ID": string;
-  "Account ID": string;
-  "OBH General Acct": string;
-  "Account Name": string;
-  "Program Name": string;
-  "Original Date of Licensure": string;
-  "SUD License Number": string;
-  "CS License Number": string;
-  "MH Designation": string;
-  Phone: string;
-  Fax: string;
-  "TDD/TTY": string;
-  "Billing Address Line 1": string;
-  "Billing City": string;
-  County: string;
-  "Billing Zip/Postal Code": string;
-  "Billing State/Province": string;
-  "Hide Address": string;
-  "Provider Location Display Label": string;
-  Website: string;
-  "Active SUD License": string;
-  "Active MH Designation": string;
-  "Opioid Treatment Programs": string;
-  "Residential Child Care Facility": string;
-  Hospital: string;
-  "Community Mental Health Center": string;
-  "Community Mental Health Clinic": string;
-  "Psychiatric Residential": string;
-  "Substance Use Services": string;
-  "Mental Health Settings": string;
-  "Population Served": string;
   Accessibility: string;
-  "Fee(s)": string;
-  "Languages Spoken": string;
-  "Hours of Operation Monday": string;
-  "Hours of Operation Tuesday": string;
-  "Hours of Operation Wednesday": string;
-  "Hours of Operation Thursday": string;
-  "Hours of Operation Friday": string;
-  "Hours of Operation Saturday": string;
-  "Hours of Operation Sunday": string;
-  "Outpatient - SU Services": string;
-  "Day Treatment (Partial Hospitalization)": string;
-  "Intensive Outpatient - SU Services": string;
-  "Clinic Managed Low Intense Res Svcs": string;
-  "Clinic Managed Med Intense Res Svcs": string;
-  "Clinic Managed High Intense Res Svcs": string;
-  "Medically Monitored Intense Res Trtmt": string;
-  "Clinic Managed Residential Detox": string;
-  "Med Monitored Inpatient Detox": string;
-  "72-Hour Treatment & Evaluation": string;
-  "Acute Treatment Unit": string;
-  "Crisis Stabilization Unit": string;
-  "Day Treatment": string;
-  Emergency: string;
-  "Intensive Outpatient": string;
-  Outpatient: string;
-  "Residential Short Term Treatment": string;
-  "Residential Long Term Treatment": string;
-  "CIRCLE Program": string;
-  "MSO Affiliation": string;
-  RAE: string;
-  ASO: string;
-  "Alcohol & Drug Involuntary Commitment": string;
-  "General Treatment": string;
-  "DUI/DWI": string;
-  "Youth Treatment": string;
-  "Gender Responsive Ttmt for Women": string;
-  "Edu&Ttmt Svcs for Persons in CJS": string;
-  "Provider Directory Form Modified Date": string;
+  AccountID: string;
+  AccountName: string;
+  ActiveMHDesignation: string;
+  ActiveSUDLicense: string;
+  CommunityMentalHealthCenter: string;
+  CommunityMentalHealthClinic: string;
+  DUIDWI: string;
+  Fees: string;
+  HideAddress: string;
+  HoursofOperationFriday: string;
+  HoursofOperationMonday: string;
+  HoursofOperationSaturday: string;
+  HoursofOperationSunday: string;
+  HoursofOperationThursday: string;
+  HoursofOperationTuesday: string;
+  HoursofOperationWednesday: string;
+  LanguagesSpoken: string;
+  MentalHealthSettings: string;
+  OpioidTreatmentPrograms: string;
+  Phone: string;
+  PopulationServed: string;
+  ProviderDirectoryFormModifiedDate: string;
+  ProviderLocationDisplayLabel: string;
+  SubstanceUseServices: string;
+  Website: string;
   lat: string;
   lon: string;
 };
@@ -129,13 +85,13 @@ const getDailyHours = (hoursString: string): DailyHours => {
 
 const getHoursOfOperation = (row: InputRow): WeeklyHours => {
   const hoursOfOperation = {
-    sunday: getDailyHours(row["Hours of Operation Sunday"]),
-    monday: getDailyHours(row["Hours of Operation Monday"]),
-    tuesday: getDailyHours(row["Hours of Operation Tuesday"]),
-    wednesday: getDailyHours(row["Hours of Operation Wednesday"]),
-    thursday: getDailyHours(row["Hours of Operation Thursday"]),
-    friday: getDailyHours(row["Hours of Operation Friday"]),
-    saturday: getDailyHours(row["Hours of Operation Saturday"]),
+    sunday: getDailyHours(row.HoursofOperationSunday),
+    monday: getDailyHours(row.HoursofOperationMonday),
+    tuesday: getDailyHours(row.HoursofOperationTuesday),
+    wednesday: getDailyHours(row.HoursofOperationWednesday),
+    thursday: getDailyHours(row.HoursofOperationThursday),
+    friday: getDailyHours(row.HoursofOperationFriday),
+    saturday: getDailyHours(row.HoursofOperationSaturday),
   };
   // if hours are missing for every day, treat hours of operation as unknown.
   // otherwise, missing hours can reliably mean closed
@@ -156,55 +112,51 @@ const getLatLng = (row: InputRow): LatLngLiteral | null => {
 };
 
 const transformRow = (row: InputRow): CareProvider => {
-  const hideAddress = !!(row["Hide Address"] === "1");
-  const substanceUseServices = splitBySemicolons(row["Substance Use Services"]);
-  const mentalHealthServices = splitBySemicolons(row["Mental Health Settings"]);
+  const hideAddress = !!(row.HideAddress === "1");
+  const substanceUseServices = splitBySemicolons(row.SubstanceUseServices);
+  const mentalHealthServices = splitBySemicolons(row.MentalHealthSettings);
   const cleaned = {
-    id: row["Account ID"],
-    name: row["Account Name"],
-    programName: row["Program Name"],
-    phone: row["Phone"],
+    id: row.AccountID,
+    name: row.AccountName,
+    phone: row.Phone,
     hideAddress,
     address:
-      hideAddress || !row["Provider Location Display Label"]
+      hideAddress || !row.ProviderLocationDisplayLabel
         ? []
-        : row["Provider Location Display Label"].split("_BR_ENCODED_"),
+        : row.ProviderLocationDisplayLabel.split("_BR_ENCODED_"),
     website:
-      row["Website"] && !row["Website"].startsWith("http")
-        ? `https://${row["Website"]}`
-        : row["Website"],
+      row.Website && !row.Website.startsWith("http")
+        ? `https://${row.Website}`
+        : row.Website,
     substanceUse: {
       supported: !!(
         substanceUseServices.length ||
-        row["Active SUD License"] === "1" ||
-        row["Opioid Treatment Programs"] === "1"
+        row.ActiveSUDLicense === "1" ||
+        row.OpioidTreatmentPrograms === "1"
       ),
-      duiSupported: row["DUI/DWI"] === "1",
+      duiSupported: row.DUIDWI === "1",
       services: getBooleanMap(SUBSTANCE_USE_SERVICES, substanceUseServices),
     },
     mentalHealth: {
       supported: !!(
         mentalHealthServices.length ||
-        row["Active MH Designation"] === "1" ||
-        row["Community Mental Health Center"] === "1" ||
-        row["Community Mental Health Clinic"] === "1"
+        row.ActiveMHDesignation === "1" ||
+        row.CommunityMentalHealthCenter === "1" ||
+        row.CommunityMentalHealthClinic === "1"
       ),
       services: getBooleanMap(MENTAL_HEALTH_SERVICES, mentalHealthServices),
     },
     populationsServed: getBooleanMap(
       POPULATIONS_SERVED,
-      splitBySemicolons(row["Population Served"])
+      splitBySemicolons(row.PopulationServed)
     ),
     hours: getHoursOfOperation(row),
     accessibility: getBooleanMap(
       ACCESSIBILITY_OPTIONS,
-      splitBySemicolons(row["Accessibility"])
+      splitBySemicolons(row.Accessibility)
     ),
-    fees: getBooleanMap(FEE_PREFERENCES, splitBySemicolons(row["Fee(s)"])),
-    languages: getBooleanMap(
-      LANGUAGES,
-      splitBySemicolons(row["Languages Spoken"])
-    ),
+    fees: getBooleanMap(FEE_PREFERENCES, splitBySemicolons(row.Fees)),
+    languages: getBooleanMap(LANGUAGES, splitBySemicolons(row.LanguagesSpoken)),
     latlng: getLatLng(row),
   };
   return cleaned;
@@ -218,6 +170,7 @@ const rows = parse(csvFileContent, {
 const cleanedData = rows.map((row: InputRow) => {
   return transformRow(row);
 });
+
 fs.writeFileSync(
   path.resolve(__dirname, OUTPUT_FILE),
   JSON.stringify(cleanedData)

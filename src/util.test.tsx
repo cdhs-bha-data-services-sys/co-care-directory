@@ -35,7 +35,6 @@ import {
 const DUMMY_CARE_PROVIDER: CareProvider = {
   id: "1",
   name: "Care Provider",
-  programName: "Care Provider",
   phone: "123-456-7890",
   hideAddress: false,
   address: [],
