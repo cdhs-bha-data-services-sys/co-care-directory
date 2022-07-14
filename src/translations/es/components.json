@@ -46,6 +46,23 @@
       },
       "hours": {
         "question": "Días de operación"
+      },
+      "languages": {
+        "question": "Idioma",
+        "answers": {
+          "English": "Inglés / English",
+          "Spanish": "Español",
+          "Vietnamese": "Vietnamita / Tiếng Việt",
+          "German": "Alemán / Deutsch",
+          "Russian": "Ruso / Русский",
+          "Polish": "Polaco / Polski",
+          "Ukrainian": "Ucraniano / український",
+          "French": "Francés / Français",
+          "Mandarin": "Chino mandarín / 普通话",
+          "Cambodian": "Camboyano / កម្ពុជា",
+          "Mongolian": "Mongol / Монгол",
+          "Cantonese": "Chino cantonés / 粵語"
+        }
       }
     }
   },

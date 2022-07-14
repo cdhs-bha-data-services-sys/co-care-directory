@@ -30,6 +30,7 @@ import {
   meetsAnyFeePreference,
   meetsAccessibilityNeeds,
   isOpenOnSelectedDays,
+  supportsLanguages,
 } from "./util";
 
 const DUMMY_CARE_PROVIDER: CareProvider = {
@@ -386,5 +387,30 @@ describe("isOpenOnSelectedDays", () => {
     expect(
       isOpenOnSelectedDays(satProvider, [DayOfWeek.Sunday, DayOfWeek.Saturday])
     ).toEqual(true);
+  });
+});
+
+describe("supportsLanguages", () => {
+  test("true if no languages are specified", () => {
+    expect(supportsLanguages(DUMMY_CARE_PROVIDER, [])).toEqual(true);
+  });
+
+  test("true if english is selected", () => {
+    expect(supportsLanguages(DUMMY_CARE_PROVIDER, ["English"])).toEqual(true);
+  });
+
+  test("true if some but not all languages supported", () => {
+    const spanishProvider = {
+      ...DUMMY_CARE_PROVIDER,
+      languages: {
+        ...DUMMY_CARE_PROVIDER.languages,
+        Spanish: true,
+      },
+    };
+    expect(supportsLanguages(spanishProvider, ["Spanish"])).toEqual(true);
+    expect(supportsLanguages(spanishProvider, ["Spanish", "Mandarin"])).toEqual(
+      true
+    );
+    expect(supportsLanguages(spanishProvider, ["Mandarin"])).toEqual(false);
   });
 });

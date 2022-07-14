@@ -8,6 +8,7 @@ import AccessibilityInput from "./AccessibilityInput";
 import DistanceInput from "./DistanceInput";
 import FeePreferenceInput from "./FeePreferenceInput";
 import HoursInput from "./HoursInput";
+import LanguageInput from "./LanguageInput";
 import TypeOfHelpInput from "./TypeOfHelpInput";
 
 export const FilterFieldset = styled(Fieldset)`
@@ -138,6 +139,13 @@ function SearchFiltersControl({
             filters={filters}
             setFilters={setFilters}
             tPrefix={`${T_PREFIX}filters.hours.`}
+          />
+        </div>
+        <div className="margin-y-3">
+          <LanguageInput
+            filters={filters}
+            setFilters={setFilters}
+            tPrefix={`${T_PREFIX}filters.languages.`}
           />
         </div>
         <Button type="submit" className="usa-button">

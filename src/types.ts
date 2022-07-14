@@ -165,6 +165,7 @@ export type SearchFilters = {
   feePreferences: FeePreference[];
   accessibility: AccessibilityOptions[];
   hours: DayOfWeek[];
+  languages: Languages[];
 };
 
 export enum TypeOfHelp {
