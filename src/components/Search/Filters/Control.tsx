@@ -1,15 +1,16 @@
-import { Button, Fieldset } from "@trussworks/react-uswds";
-import { useState } from "react";
+import { Button, Fieldset, Grid } from "@trussworks/react-uswds";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { AnalyticsAction, logEvent } from "../../../analytics";
 import { SearchFilters, TypeOfHelp } from "../../../types";
-import AccessibilityInput from "./AccessibilityInput";
-import DistanceInput from "./DistanceInput";
+import ControlDropdown from "./ControlDropdown";
 import FeePreferenceInput from "./FeePreferenceInput";
 import HoursInput from "./HoursInput";
 import LanguageInput from "./LanguageInput";
 import TypeOfHelpInput from "./TypeOfHelpInput";
+import AccessibilityInput from "./AccessibilityInput";
+import DistanceInput from "./DistanceInput";
+import ControlToggles from "./ControlToggles";
 
 export const FilterFieldset = styled(Fieldset)`
   legend {
@@ -17,152 +18,103 @@ export const FilterFieldset = styled(Fieldset)`
   }
 `;
 
-const countOptionalFiltersSelected = (filters: SearchFilters): number => {
-  let count = 0;
-  if (filters.typesOfHelp.length) {
-    count += 1;
-  }
-  if (filters.feePreferences.length) {
-    count += 1;
-  }
-  return count;
-};
-
-const clearOptionalFilters = (filters: SearchFilters): SearchFilters => {
-  return {
-    ...filters,
-    typesOfHelp: [],
-    feePreferences: [],
-  };
-};
-
-const T_PREFIX = "components.search.";
-function SearchFiltersControl({
-  currentFilters,
-  onApplyFilters,
-}: {
+type ControlProps = {
   currentFilters: SearchFilters;
   onApplyFilters: (filters: SearchFilters) => void;
-}) {
+};
+
+function Control({ currentFilters, onApplyFilters }: ControlProps) {
   const { t } = useTranslation();
   const [filters, setFilters] = useState<SearchFilters>(currentFilters);
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
-  const countSelected = countOptionalFiltersSelected(currentFilters);
-
-  const closeFiltersWithoutApplyingUpdates = () => {
-    setIsExpanded(false);
+  // Control doesn't actually need to maintain additional state var
+  // for filters but refactoring right now is out of scope.
+  // To maintain desired functionality where filters are not
+  // "applied" until button press, we must use url params as
+  // source of truth between displayed results and controls.
+  // Thus, we must update these filters when they change in the
+  // url
+  useEffect(() => {
     setFilters(currentFilters);
-  };
+  }, [currentFilters]);
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        logEvent(AnalyticsAction.ApplyFilter, { label: "Apply button" });
-        onApplyFilters(filters);
-        setIsExpanded(false);
-      }}
-    >
-      <Button
-        type="button"
-        className="radius-pill"
-        onClick={() => {
-          if (isExpanded) {
-            closeFiltersWithoutApplyingUpdates();
-          } else {
-            setIsExpanded(true);
-          }
-        }}
-        outline={countSelected === 0}
-        base={countSelected !== 0}
-      >
-        {t(`${T_PREFIX}toggleFiltersButton`, {
-          count: countSelected,
-        })}
-      </Button>
-      <div className={isExpanded ? "display-block" : "display-none"}>
-        <div className="margin-y-2">
-          {countSelected > 0 && (
-            <Button
-              type="button"
-              onClick={() => {
-                logEvent(AnalyticsAction.ApplyFilter, {
-                  label: "Clear filters button",
-                });
-                const cleared = clearOptionalFilters(filters);
-                setFilters(cleared);
-                onApplyFilters(cleared);
-              }}
-              unstyled
-            >
-              {t(`${T_PREFIX}clearFiltersButton`)}
-            </Button>
-          )}
-        </div>
-        <div className="margin-y-3">
-          <DistanceInput
-            filters={filters}
-            setFilters={setFilters}
-            tPrefix={`${T_PREFIX}filters.distance.`}
-          />
-        </div>
-        <div className="margin-y-3">
+    <>
+      <Grid row className="margin-bottom-2">
+        <ControlDropdown
+          title={t("components.search.filters.typeOfHelp.question")}
+          hasSelection={!!filters.typesOfHelp?.length}
+          clearAll={() => setFilters({ ...filters, typesOfHelp: [] })}
+          applyFilters={() => onApplyFilters(filters)}
+        >
           <TypeOfHelpInput
+            hideLegend
             options={[
-              TypeOfHelp.SubstanceUse,
-              TypeOfHelp.CourtMandatedTreatment,
               TypeOfHelp.MentalHealth,
+              TypeOfHelp.CourtMandatedTreatment,
+              TypeOfHelp.SubstanceUse,
             ]}
             filters={filters}
             setFilters={setFilters}
-            tPrefix={`${T_PREFIX}filters.typeOfHelp.`}
+            tPrefix="components.search.filters.typeOfHelp."
           />
-        </div>
-        <div className="margin-y-3">
+        </ControlDropdown>
+        <ControlDropdown
+          title={t("components.search.filters.feePreference.question")}
+          hasSelection={!!filters.feePreferences?.length}
+          clearAll={() => setFilters({ ...filters, feePreferences: [] })}
+          applyFilters={() => onApplyFilters(filters)}
+        >
           <FeePreferenceInput
+            hideLegend
             options={["PrivateInsurance", "Medicaid", "SlidingFeeScale"]}
             filters={filters}
             setFilters={setFilters}
-            tPrefix={`${T_PREFIX}filters.feePreference.`}
+            tPrefix="components.search.filters.feePreference."
           />
-        </div>
-        <div className="margin-y-3">
-          <AccessibilityInput
-            filters={filters}
-            setFilters={setFilters}
-            tPrefix={`${T_PREFIX}filters.accessibility.`}
-          />
-        </div>
-        <div className="margin-y-3">
+        </ControlDropdown>
+        <ControlDropdown
+          title={t("components.search.filters.hours.question")}
+          hasSelection={!!filters.hours?.length}
+          clearAll={() => setFilters({ ...filters, hours: [] })}
+          applyFilters={() => onApplyFilters(filters)}
+        >
           <HoursInput
+            hideLegend
             filters={filters}
             setFilters={setFilters}
-            tPrefix={`${T_PREFIX}filters.hours.`}
+            tPrefix="components.search.filters.hours."
           />
-        </div>
-        <div className="margin-y-3">
-          <LanguageInput
+        </ControlDropdown>
+        <ControlDropdown
+          title={t("components.search.filters.accessibility.question")}
+          hasSelection={!!filters.accessibility?.length}
+          clearAll={() => setFilters({ ...filters, accessibility: [] })}
+          applyFilters={() => onApplyFilters(filters)}
+        >
+          <AccessibilityInput
+            hideLegend
             filters={filters}
             setFilters={setFilters}
-            tPrefix={`${T_PREFIX}filters.languages.`}
+            tPrefix="components.search.filters.accessibility."
           />
-        </div>
-        <Button type="submit" className="usa-button">
-          {t(`${T_PREFIX}viewResultsButton`)}
-        </Button>
-        <div className="padding-top-2">
-          <Button
-            type="button"
-            onClick={() => closeFiltersWithoutApplyingUpdates()}
-            unstyled
-          >
-            {t("common.cancel")}
-          </Button>
-        </div>
-      </div>
-    </form>
+        </ControlDropdown>
+        <ControlDropdown
+          title={t("components.search.filters.distance.distance")}
+          hasSelection={true}
+          applyFilters={() => onApplyFilters(filters)}
+        >
+          <DistanceInput
+            hideLegend
+            filters={filters}
+            setFilters={setFilters}
+            tPrefix="components.search.filters.distance."
+          />
+        </ControlDropdown>
+      </Grid>
+      <ControlToggles applyFilters={onApplyFilters} />
+    </>
   );
 }
 
-export default SearchFiltersControl;
+export default Control;

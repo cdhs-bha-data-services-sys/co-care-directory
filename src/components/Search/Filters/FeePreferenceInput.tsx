@@ -7,6 +7,7 @@ import { FilterFieldset } from "./Control";
 import FilterCheckbox from "./FilterCheckbox";
 
 type FeePreferenceInputProps = {
+  hideLegend?: boolean;
   options: FeePreference[];
   filters: SearchFilters;
   setFilters: Dispatch<SetStateAction<SearchFilters>>;
@@ -14,6 +15,7 @@ type FeePreferenceInputProps = {
 };
 
 function FeePreferenceInput({
+  hideLegend = false,
   options,
   filters,
   setFilters,
@@ -34,14 +36,20 @@ function FeePreferenceInput({
   };
 
   return (
-    <FilterFieldset legend={t(`${tPrefix}question`)}>
+    <FilterFieldset
+      legend={t(`${tPrefix}question`)}
+      legendStyle={hideLegend ? "srOnly" : "default"}
+    >
       {options.map((option) => (
         <FilterCheckbox
           name="payment options"
           value={option}
           tPrefix={`${tPrefix}answers`}
           selectedFilterValues={filters.feePreferences}
-          onChange={() => setFeePreferenceFilter(option)}
+          onChange={() => {
+            if (option === "SelfPay") return; // do not apply no-op filters
+            setFeePreferenceFilter(option);
+          }}
           key={option}
         />
       ))}

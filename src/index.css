@@ -70,6 +70,18 @@ body {
   color: white;
 }
 
+/* override Bootstrap settings */
+.show > .btn-primary.dropdown-toggle {
+  background-color: var(--dark-blue, darkblue);
+  color: white;
+  border: none;
+}
+
+.dropdown-menu {
+  border: 1px solid var(--dark-blue);
+  min-width: 14rem;
+}
+
 /* create custom classes and styles */
 .data-icon {
   color: var(--dark-blue, darkblue);
@@ -84,17 +96,12 @@ body {
   color: white;
 }
 
-.top-neg-50px {
-  top: -50px;
+.text-dark-blue {
+  color: var(--dark-blue, darkblue);
 }
 
-hr {
-  border: solid 1px;
-  border-color: var(--grey, grey);
-  opacity: 0.3;
-  border-bottom: none;
-  border-left: none;
-  border-right: none;
+.top-neg-50px {
+  top: -50px;
 }
 
 code {

@@ -14,6 +14,7 @@
     "toggleFiltersButton_one": "Filter results ({{count}} selected)",
     "toggleFiltersButton_other": "Filter results ({{count}} selected)",
     "clearFiltersButton": "Clear all filters",
+    "filteredBy": "Filtered by",
     "viewResultsButton": "View results",
     "filters": {
       "distance": {

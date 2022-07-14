@@ -7,6 +7,7 @@ import { FilterFieldset } from "./Control";
 import FilterCheckbox from "./FilterCheckbox";
 
 type TypeOfHelpInputProps = {
+  hideLegend?: boolean;
   options: TypeOfHelp[];
   filters: SearchFilters;
   setFilters: Dispatch<SetStateAction<SearchFilters>>;
@@ -14,6 +15,7 @@ type TypeOfHelpInputProps = {
 };
 
 function TypeOfHelpInput({
+  hideLegend = false,
   options,
   filters,
   setFilters,
@@ -34,14 +36,21 @@ function TypeOfHelpInput({
   };
 
   return (
-    <FilterFieldset legend={t(`${tPrefix}question`)}>
+    <FilterFieldset
+      legend={t(`${tPrefix}question`)}
+      legendStyle={hideLegend ? "srOnly" : "default"}
+    >
       {options.map((option) => (
         <FilterCheckbox
           name="type of help"
           value={option}
           tPrefix={`${tPrefix}answers`}
           selectedFilterValues={filters.typesOfHelp}
-          onChange={() => setTypeOfHelpFilter(option)}
+          onChange={() => {
+            if (option === TypeOfHelp.None || option === TypeOfHelp.Unsure)
+              return; // do not apply no-op filters
+            setTypeOfHelpFilter(option);
+          }}
           key={option}
         />
       ))}

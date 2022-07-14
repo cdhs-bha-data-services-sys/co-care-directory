@@ -229,7 +229,7 @@ export function getFiltersFromSearchParams(
     miles: searchParams.get("miles") ?? "",
     // TODO: how to enforce type?
     typesOfHelp: searchParams.getAll("typesOfHelp") as TypeOfHelp[],
-    feePreferences: searchParams.getAll("fees") as FeePreference[],
+    feePreferences: searchParams.getAll("feePreferences") as FeePreference[],
     accessibility: searchParams.getAll(
       "accessibility"
     ) as AccessibilityOptions[],

@@ -64,7 +64,7 @@ function ResultDetail() {
         </Link>
       </div>
       <Grid row className="flex-justify margin-bottom-2">
-        <h1>{data.name}</h1>
+        <h1 className="text-bold">{data.name}</h1>
         <ShareButton text={t(`${T_PREFIX}share`)} />
       </Grid>
 

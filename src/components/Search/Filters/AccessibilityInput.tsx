@@ -11,12 +11,14 @@ import { FilterFieldset } from "./Control";
 import FilterCheckbox from "./FilterCheckbox";
 
 type AccessibilityInputProps = {
+  hideLegend?: boolean;
   filters: SearchFilters;
   setFilters: Dispatch<SetStateAction<SearchFilters>>;
   tPrefix: string;
 };
 
 function AccessibilityInput({
+  hideLegend = false,
   filters,
   setFilters,
   tPrefix,
@@ -41,7 +43,10 @@ function AccessibilityInput({
   };
 
   return (
-    <FilterFieldset legend={t(`${tPrefix}question`)}>
+    <FilterFieldset
+      legend={t(`${tPrefix}question`)}
+      legendStyle={hideLegend ? "srOnly" : "default"}
+    >
       {ACCESSIBILITY_OPTIONS.map((option) => (
         <FilterCheckbox
           name="accessibility"

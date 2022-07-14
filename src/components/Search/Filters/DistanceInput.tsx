@@ -7,12 +7,18 @@ import { MILE_DISTANCE_OPTIONS } from "../../../util";
 import { FilterFieldset } from "./Control";
 
 type DistanceInputProps = {
+  hideLegend?: boolean;
   filters: SearchFilters;
   setFilters: Dispatch<SetStateAction<SearchFilters>>;
   tPrefix: string;
 };
 
-function DistanceInput({ filters, setFilters, tPrefix }: DistanceInputProps) {
+function DistanceInput({
+  hideLegend,
+  filters,
+  setFilters,
+  tPrefix,
+}: DistanceInputProps) {
   const { t } = useTranslation();
 
   const setDistanceFilter = (miles: string) => {
@@ -40,7 +46,10 @@ function DistanceInput({ filters, setFilters, tPrefix }: DistanceInputProps) {
   );
 
   return (
-    <FilterFieldset legend={t(`${tPrefix}distance`)}>
+    <FilterFieldset
+      legend={t(`${tPrefix}distance`)}
+      legendStyle={hideLegend ? "srOnly" : "default"}
+    >
       {MILE_DISTANCE_OPTIONS.map((miles) => getRadio(miles))}
     </FilterFieldset>
   );

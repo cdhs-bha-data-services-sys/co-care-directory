@@ -7,12 +7,18 @@ import { FilterFieldset } from "./Control";
 import FilterCheckbox from "./FilterCheckbox";
 
 type HoursInputProps = {
+  hideLegend?: boolean;
   filters: SearchFilters;
   setFilters: Dispatch<SetStateAction<SearchFilters>>;
   tPrefix: string;
 };
 
-function HoursInput({ filters, setFilters, tPrefix }: HoursInputProps) {
+function HoursInput({
+  hideLegend = false,
+  filters,
+  setFilters,
+  tPrefix,
+}: HoursInputProps) {
   const { t } = useTranslation();
 
   const setHoursFilter = (day: DayOfWeek) => {
@@ -28,7 +34,10 @@ function HoursInput({ filters, setFilters, tPrefix }: HoursInputProps) {
   };
 
   return (
-    <FilterFieldset legend={t(`${tPrefix}question`)}>
+    <FilterFieldset
+      legend={t(`${tPrefix}question`)}
+      legendStyle={hideLegend ? "srOnly" : undefined}
+    >
       {DAYS_OF_THE_WEEK.map((option) => (
         <FilterCheckbox
           name="hours"

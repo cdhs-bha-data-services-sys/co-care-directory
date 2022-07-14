@@ -76,7 +76,7 @@ function Home() {
       <ContentOverlay>
         <Grid row>
           <Grid col={12} tablet={{ col: 7 }}>
-            <Heading className="radius-lg padding-y-2">
+            <Heading className="radius-lg padding-y-2 text-bold">
               {t(`${T_PREFIX}heading`)}
             </Heading>
           </Grid>
@@ -99,7 +99,7 @@ function Home() {
                 headerContent={<ColoradoCrisisServicesLogo />}
                 bodyContent={
                   <>
-                    <h2 className="font-body-lg">
+                    <h2 className="font-body-lg text-bold">
                       {t(`${T_PREFIX}_coloradoCrisisService.heading`)}
                     </h2>
                     <p>{t(`${T_PREFIX}_coloradoCrisisService.content`)}</p>
@@ -119,7 +119,7 @@ function Home() {
                 headerContent={<IMatterLogo />}
                 bodyContent={
                   <>
-                    <h2 className="font-body-lg">
+                    <h2 className="font-body-lg text-bold">
                       {t(`${T_PREFIX}_iMatter.heading`)}
                     </h2>
                     <p>{t(`${T_PREFIX}_iMatter.content`)}</p>
@@ -139,7 +139,7 @@ function Home() {
                 headerContent={<BhaLogo />}
                 bodyContent={
                   <>
-                    <h2 className="font-body-lg">
+                    <h2 className="font-body-lg text-bold">
                       {t(`${T_PREFIX}_bha.heading`)}
                     </h2>
                     <p>{t(`${T_PREFIX}_bha.content`)}</p>

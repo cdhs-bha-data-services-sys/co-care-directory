@@ -230,6 +230,7 @@ function Search() {
   // TODO: do we need this, or can we just use searchParams to track filter state?
   const [searchFilters, setSearchFilters] =
     useState<SearchFilters>(initialFilters);
+
   // Filtered set of CareProviders OR error string
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
 
@@ -262,13 +263,10 @@ function Search() {
   return (
     <div className="Search">
       {searchResult && (
-        <div>
-          <div className="margin-y-2 tablet:padding-x-6 padding-x-2">
-            <Grid
-              row
-              className="flex-justify flex-align-center margin-bottom-2"
-            >
-              <h1 className="margin-y-0">
+        <GridContainer>
+          <div className="margin-y-2">
+            <Grid row className="flex-justify">
+              <h1 className="margin-y-0 text-bold">
                 {t(`${T_PREFIX}resultCount`, {
                   count: searchResult.results.length,
                   zip: searchFilters.zip,
@@ -276,15 +274,16 @@ function Search() {
               </h1>
               <ShareButton text={t(`${T_PREFIX}share`)} />
             </Grid>
-            <Control
-              currentFilters={searchFilters}
-              onApplyFilters={(filters) => {
-                setSearchFilters(filters);
-                performSearch(filters);
-                setSearchParams(filters);
-              }}
-            />
           </div>
+
+          <Control
+            currentFilters={searchFilters}
+            onApplyFilters={(filters) => {
+              setSearchFilters(filters);
+              performSearch(filters);
+              setSearchParams(filters);
+            }}
+          />
           <div>
             {searchResult.results.length ? (
               <>
@@ -301,7 +300,7 @@ function Search() {
               </p>
             )}
           </div>
-        </div>
+        </GridContainer>
       )}
     </div>
   );
