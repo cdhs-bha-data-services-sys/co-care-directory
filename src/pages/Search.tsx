@@ -54,14 +54,14 @@ const Desktop = ({ results }: { results: CareProviderSearchResult[] }) => {
     <div className="display-none tablet:display-block">
       <Grid row className="border-top border-base-lighter overflow-x-hidden">
         <Grid
-          tablet={{ col: 5 }}
-          className="height-viewport"
+          tablet={{ col: 7 }}
+          className="height-viewport padding-left-3"
           key="desktop-list"
         >
           <ResultsList results={results} selectedResultId={selectedResultId} />
         </Grid>
         <Grid
-          tablet={{ col: 7 }}
+          tablet={{ col: 5 }}
           key="desktop-map"
           className="position-sticky top-0"
         >
@@ -143,7 +143,7 @@ const Mobile = ({ results }: { results: CareProviderSearchResult[] }) => {
     useState<CareProviderSearchResult>();
   return (
     <div
-      className="tablet:display-none border-top border-base-lighter"
+      className="tablet:display-none border-top border-base-lighter padding-x-2 tablet:padding-x-0"
       aria-hidden
     >
       <MobileViewToggle
@@ -266,9 +266,12 @@ function Search() {
   return (
     <div className="Search">
       {searchResult && (
-        <GridContainer>
-          <div className="margin-y-2">
-            <Grid row className="flex-justify">
+        <div>
+          <div className="margin-y-2 tablet:padding-x-6 padding-x-2">
+            <Grid
+              row
+              className="flex-justify flex-align-center margin-bottom-2"
+            >
               <h1 className="margin-y-0">
                 {t(`${T_PREFIX}resultCount`, {
                   count: searchResult.results.length,
@@ -277,8 +280,6 @@ function Search() {
               </h1>
               <ShareButton text={t(`${T_PREFIX}share`)} />
             </Grid>
-          </div>
-          <div className="margin-bottom-2">
             <Control
               currentFilters={searchFilters}
               onApplyFilters={(filters) => {
@@ -304,7 +305,7 @@ function Search() {
               </p>
             )}
           </div>
-        </GridContainer>
+        </div>
       )}
     </div>
   );
