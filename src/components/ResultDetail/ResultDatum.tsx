@@ -6,7 +6,7 @@ type ResultDatumProps = {
 
 function ResultDatum({ Icon, children }: PropsWithChildren<ResultDatumProps>) {
   return (
-    <div className="margin-y-2 display-flex">
+    <div className="margin-y-1 padding-bottom-05 display-flex">
       <div className="display-flex flex-justify-center margin-right-05">
         <Icon className="data-icon width-3" />
       </div>

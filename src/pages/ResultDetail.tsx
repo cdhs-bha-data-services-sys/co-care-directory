@@ -90,7 +90,7 @@ function ResultDetail() {
                 </Map>
 
                 <div className="margin-y-2">
-                  <DirectionsLink careProvider={data} isButton />
+                  <DirectionsLink careProvider={data} />
                 </div>
               </div>
             )}

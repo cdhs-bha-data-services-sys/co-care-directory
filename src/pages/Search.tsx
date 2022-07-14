@@ -204,11 +204,7 @@ const Mobile = ({ results }: { results: CareProviderSearchResult[] }) => {
                 </Button>
               </Grid>
             </Grid>
-            <ResultCard data={selectedResult}>
-              <Link className="usa-button" to={`/result/${selectedResult.id}`}>
-                {t(`${T_PREFIX}fullDetailButton`)}
-              </Link>
-            </ResultCard>
+            <ResultCard data={selectedResult} />
           </div>
         ) : (
           <Alert

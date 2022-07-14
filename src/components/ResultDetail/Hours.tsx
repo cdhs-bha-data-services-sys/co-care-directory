@@ -71,7 +71,7 @@ function Hours({ hours }: { hours: WeeklyHours }) {
           ? `${startDayStr}-${endDayStr}: `
           : `${startDayStr}: `;
         return (
-          <div className="margin-bottom-1" key={row.startDay}>
+          <div className="margin-top-05" key={row.startDay}>
             {label}
             {formatDailyHours(row.hours, t)}
           </div>

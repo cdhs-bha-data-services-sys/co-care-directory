@@ -5,10 +5,8 @@ import { ReactComponent as DirectionsIcon } from "../../images/directions.svg";
 
 function DirectionsLink({
   careProvider,
-  isButton,
 }: {
   careProvider: CareProvider | CareProviderSearchResult;
-  isButton?: boolean;
 }) {
   const { t } = useTranslation();
 
@@ -20,22 +18,14 @@ function DirectionsLink({
     careProvider.address.join(", ")
   )}`;
 
-  return isButton ? (
+  return (
     <ExternalLink
       variant="external"
       className="usa-button margin-right-0 display-flex flex-align-center flex-justify-center"
       target="_blank "
-      href=""
-    >
-      <DirectionsIcon className="margin-right-1" />
-      {t(`common.getDirections`)}
-    </ExternalLink>
-  ) : (
-    <ExternalLink
-      variant="external"
-      target="_blank"
       href={googleMapsDirectionsURL}
     >
+      <DirectionsIcon className="margin-right-1" />
       {t(`common.getDirections`)}
     </ExternalLink>
   );
