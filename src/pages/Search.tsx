@@ -52,15 +52,19 @@ const Desktop = ({ results }: { results: CareProviderSearchResult[] }) => {
 
   return (
     <div className="display-none tablet:display-block">
-      <Grid row className="border-top border-base-lighter">
+      <Grid row className="border-top border-base-lighter overflow-x-hidden">
         <Grid
           tablet={{ col: 5 }}
-          className="height-viewport overflow-x-hidden"
+          className="height-viewport"
           key="desktop-list"
         >
           <ResultsList results={results} selectedResultId={selectedResultId} />
         </Grid>
-        <Grid tablet={{ col: 7 }} key="desktop-map">
+        <Grid
+          tablet={{ col: 7 }}
+          key="desktop-map"
+          className="position-sticky top-0"
+        >
           <div className="border-right border-left border-base-lighter">
             <ResultsMap bounds={getResultBounds(results)} mapRef={mapRef}>
               {results.map(
