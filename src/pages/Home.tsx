@@ -7,7 +7,7 @@ import ContentCard from "../components/Home/ContentCard";
 import heroPath from "../images/hero.png";
 import { ReactComponent as ColoradoCrisisServicesLogo } from "../images/logos/colorado_crisis_services.svg";
 import { ReactComponent as IMatterLogo } from "../images/logos/imatter.svg";
-import { ReactComponent as BhaLogo } from "../images/logos/bha.svg";
+import { ReactComponent as StandUpColorado } from "../images/logos/stand_up_co.svg";
 import ZipCard from "../components/Home/ZipCard";
 import GuidedSearchCard from "../components/Home/GuidedSearchCard";
 import { logPageView } from "../analytics";
@@ -136,16 +136,20 @@ function Home() {
                 }
               />
               <ContentCard
-                headerContent={<BhaLogo />}
+                headerContent={<StandUpColorado />}
                 bodyContent={
                   <>
                     <h2 className="font-body-lg text-bold">
-                      {t(`${T_PREFIX}_bha.heading`)}
+                      {t(`${T_PREFIX}_standUp.heading`)}
                     </h2>
-                    <p>{t(`${T_PREFIX}_bha.content`)}</p>
+                    <p>{t(`${T_PREFIX}_standUp.content`)}</p>
                   </>
                 }
-                cta={<></>}
+                cta={
+                  <Link href={t(`${T_PREFIX}_standUp.link`)}>
+                    {t(`${T_PREFIX}_standUp.cta`)}
+                  </Link>
+                }
               />
             </CardGroup>
           </Grid>

@@ -13,10 +13,11 @@
       "cta": "Visit IMatterColorado.org to find a therapist and schedule an appointment.",
       "link": "https://imattercolorado.org"
     },
-    "_bha": {
-      "heading": "Our committment to you",
-      "content": "You’ll never need to create an account to use this service, and any personally identifiable information you share will be kept secure.",
-      "cta": "Read our privacy policy."
+    "_standUp": {
+      "heading": "If you’re experiencing or using abusive behavior",
+      "content": "Connect with a professional to answer your questions and provide support to anyone who is using, experiencing, or witnessing relationship violence.",
+      "cta": "Call the Stand Up Colorado Helpline at (855) 978-2638.",
+      "link": "tel:+18559782638"
     }
   },
   "search": {
